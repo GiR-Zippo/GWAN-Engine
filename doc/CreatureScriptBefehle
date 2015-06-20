@@ -1,0 +1,24 @@
+void LoadTileTexture(string filename, int tileWidth, int tileHeight);
+
+
+Movement
+bool MoveStep(bool left, bool right, bool up, bool down);
+void SetIdleAnimation(bool left, bool right, bool up, bool down);
+void SetMovementSpeed(0.1);
+void MoveToPosition(1, 4, -9);
+void DeleteSubObject(uint8 id)
+int WriteText(float x, float y, float z, bool depth, float height, string text, string font)
+
+Animation Zeugs
+void SetIdleAnimation(bool left, bool right, bool up, bool down)
+
+Kleinnkram
+void SetUint32(uint16 id, uint16 index, uint32 data);
+
+
+ApiZeugs
+void OnInit()
+void PostDraw()
+void onSetData(uint16 index, uint32 data)
+void onWaypointReached(uint32 waypoint)
+void Update(uint32 diff)

@@ -1,0 +1,12 @@
+Linux
+ace-v6.1.4
+angelscript-2.29.1 WIP
+libpng-1.2.37
+FreeType 2.5.3
+
+Windows
+freeglut 2.8.1-1.mp
+glew-1.10.0
+FLAC - 1.2.1
+libmpeg-1.18.0
+libmodplug-0.8.8.5

@@ -1,0 +1,31 @@
+SET(png_STAT_SRCS
+  ${png_STAT_SRCS}
+  pngget.c
+  pnggccrd.c
+  pngread.c
+  pngpread.c
+  pngset.c
+  pngrutil.c
+  pngvcrd.c
+  pngtrans.c
+  pngwutil.c
+  pngwrite.c
+  pngwio.c
+  pngtest.c
+  pngrtran.c
+  pngrio.c
+  pngmem.c
+  pngerror.c
+  png.c
+)
+
+include_directories(
+  ${CMAKE_BINARY_DIR}
+  ${CMAKE_SOURCE_DIR}/dep/zlib
+  ${CMAKE_CURRENT_SOURCE_DIR}
+)
+add_library(png STATIC ${png_STAT_SRCS})
+target_link_libraries(
+png
+zlib
+)

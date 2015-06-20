@@ -1,0 +1,19 @@
+#########################################################################
+#                          ObjektListBefehle                            #
+#########################################################################
+
+int DeleteObject(uint16 id)
+- Löscht ein Objekt
+
+void AddObjectToUpdate(uint16 pos, uint16 id)
+- Fügt ein Objekt der Updateliste auf Position (pos) hinzu.
+
+void FlushUpdateList()
+- löscht die UpdateListe
+
+void RemoveObjectFromUpdateByPosition(uint16 pos)
+- Löscht das Objekt an der Stelle (pos) aus der Updateliste
+
+void RemoveObjectFromUpdate(uint16 id)
+- Löscht das Objekt mit der ID(id) von der UpdateListe
+

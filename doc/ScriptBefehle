@@ -1,0 +1,137 @@
+Generell arbeitet das Scriptsystem mit IDs.
+Bei einem Scriptwechel werden generell alle Objekte gelöscht die von
+Script erstellt wurden gelöscht.
+Einzige Außnahme bildet das SoundSystem, welche unabhängig läuft und
+manuell gesteuert werden muss.
+
+void print(string &in)
+# Schreibt in die Debug-Console
+
+
+#########################################################################
+#                     allgemeine ObjektBefehle                          #
+#########################################################################
+
+void SetObjectRGBA(uint32 id, float r, float g, float b, float a)
+- Ändert bei Planen Objekten die RGB-Werte.
+
+void MoveObjectXY(uint32 id, float x, float y)
+- Setzt ein Object auf Position x,y
+
+void MoveObjectXYZ(uint32 id, float x, float y, float z)
+- Setzt ein Object auf Position x,y,z
+
+void SetRotationXYZ(uint32 id, float x, float y, float z)
+- Rotiert ein Objekt um die X/Y/Z-Achse
+
+void RotateObjectX(uint32 id, float x)
+- Rotiert ein Objekt um die X-Achse
+
+void RotateObjectY(uint32 id, float y)
+- Rotiert ein Objekt um die Y-Achse
+
+void RotateObjectZ(uint32 id, float z)
+- Rotiert ein Objekt um die Z-Achse
+
+void SetTempOffset(uint32 id, float offset)
+- Setzt den Mausoffset wenn der Tiefentest aus ist
+
+#########################################################################
+#                           ObjektBefehle                               #
+#########################################################################
+int CreateObject(float x, float y, float z, float sx, float sy, uint16 tex, bool depth, bool ortho, bool clickable)
+- Erstellt ein Objekt auf Position x,y,z mit der Textur (tex) und gibt die ID dessen zurück.
+- Wenn Ortho an ist, so wird in Pixel gerechnet.
+  °sx und sy sind hier die Endpunkte des Objektes
+  °clickable gibt hier an ob das Object auf Mausklicks Reagiert (Achtung bei Hintergundgrafiken)
+
+- Ist Ortho aus wird mit perspektivischen Koordinaten gearbeitet
+  *sx ist der Zoom und sy die Breite
+  
+int CreateLoadingObject(float x, float y, float z, float sx, float sy, uint16 texture, bool depth)
+- Erstellt den lustigen Ladekreisel :P
+
+int CreateMS3DModel(float x, float y, float z, string path, string filename)
+- Erstellt ein 3DModel auf Position x,y,z vom Pfad("ex/") und Dateinamen(filename)
+
+int CreateTileMap(float x, float y, float z, string filename)
+- Erstellt eine Tilemap mit den Startkoordinaten (x,y,z,) aus der Datei (filename)
+
+int CreateWorldObjectCreature(float x, float y, float z, string ScriptName)
+- Erstellt eine Creature auf Position x,y,z mit dem Script (ScriptName)
+
+#########################################################################
+#                          WorldObjektBefehle                           #
+#########################################################################
+int CreateWorldObject(float x, float y, float z, string Scriptname)
+- Erstellt ein Worldobjekt auf den Koordinaten mit dem Scriptnamen
+
+
+#########################################################################
+#                              TextBefehle                              #
+#########################################################################
+
+int CreateTextObject(180, 200, -8, bool depth, float size, "Hallo Welt", "FreeSans.ttf");
+- Malt nen Text
+
+int CreateTextbox(float x, float y, float z, bool depth, float height, string text, string font)
+- Erstellt eine Textbox
+
+void SetNewText(uint32 id, string Text)
+- Ändert den Text
+
+int SetTextboxBackgroundTexture(uint32 id, string texture)
+- Läd eine Textur für eine Textbox
+
+Alle anderen allgeine Befehle gehen natürlich auch hier (ist ja auch nur ein 3DObject mit Textur)
+
+
+#########################################################################
+#                             SoundBefehle                              #
+#########################################################################
+uint32 LoadSound("FILE")
+- Läd ein Soundfile
+
+void PlaySound(uint32 id)
+- Spielt es ab
+
+void StopSound(uint32 id)
+- Stoppt es
+
+void SetSoundVolume(uint32 id, float vol)
+- Setzt die Lautstärke
+
+uint32 GetSoundIdByName(string filename)
+- Gibt die ID eines geladenen Soundfiles zurück
+
+void UnloadSound(uint32 id)
+- Löscht das SoundFile aus dem Speicher
+
+
+#Kleinkram
+int Rand()
+# Generiert eine Zufallszahl
+
+//Launcherspezifisch
+void SetRealmlist(string wow, string realmlist)
+# Setzt die Realmlist
+
+
+
+#########################################################################
+#                             API-Callbacks                             #
+#########################################################################
+void OnInitGL()
+- Wird beim Initialisieren von OpenGL aufgerufen
+
+void OnDrawGL()
+- Wird wärend Malen des Bildes aufgerufen
+
+void OnTick()
+- Der TickTimer
+
+void OnMouseClick(float x, float y, float z, float button, float action, uint16 object)
+- Wird bei einem Mausklick aufgerufen und gibt die Position der Maus, den Button und das bei Bedarf angeklickte Objekt wieder
+
+void OnMouseMove(float x, float y)
+- Mausbewegung

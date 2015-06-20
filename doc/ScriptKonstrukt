@@ -1,0 +1,35 @@
+class Master : IController
+{
+        Master(CScript @obj)
+        {
+            @self = obj;
+        }
+        
+        //Wenn OpenGL Init aufgerufen wird
+        void OnInitGL()
+        {
+        }
+
+        //Wenn OpenGL alles neu aufbaut
+        void OnDrawGL()
+        {
+        }
+
+        //Wenn sich eine Maus bewegt
+        void OnMouseMove(float x, float y)
+        {
+        }
+
+        //Wenn man mit der Maus klickt
+        void OnMouseClick(float x, float y, float z, float button, float action, uint16 object)
+        {
+        }
+
+        //Der Ticktimer (dürfte bei ca 50ms liegen)
+        void OnTick()
+        {
+        }
+        CScript @self; //Das Script selbst
+}
+ 
+ 

@@ -1,0 +1,27 @@
+class Master : IController
+{
+        Master(WorldObject @obj)
+        {
+            @self = obj;
+        }
+
+        void OnInit()
+        {
+        }
+
+        //Hier kommen alle Dinge Objekte rein, die wir wärend der Laufzeit bauen
+        void PostDraw()
+        {
+        }
+
+        void onWaypointReached(uint32 waypoint)
+        {}
+
+        void onSetData(uint16 index, uint32 data)
+        {}
+
+        void Update(uint32 diff)
+        {}
+
+        WorldObject @self; //Das Script selbst
+} 
