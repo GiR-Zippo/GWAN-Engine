@@ -4,7 +4,7 @@
 \**********************************************/
 
 #include "Tilemap.hpp"
-#include "splitstring.h"
+#include "Splitstring.hpp"
 #include "TextureLoader.hpp"
 #include "tinyxml.h"
 
@@ -118,7 +118,7 @@ void Tilemap::_ReadTileSet(TiXmlElement* elem)
         {
             std::string imagesource = belem->Attribute("source");
             imagesource.erase(std::remove(imagesource.begin(), imagesource.end(), '\"'), imagesource.end());
-            Splitter split ( imagesource, "/");
+            SplitString split ( imagesource, "/");
             t->image = split[split.size() - 1];
             t->imageheight = atoi(belem->Attribute("height"));
             t->imagewidth = atoi(belem->Attribute("width"));
@@ -176,7 +176,7 @@ void Tilemap::_ReadTileLayer(TiXmlElement* elem)
                 belemValue = belem->GetText();
                 belemValue.erase(std::remove(belemValue.begin(), belemValue.end(), '\n'), belemValue.end());
                 belemValue.erase(std::remove(belemValue.begin(), belemValue.end(), '\r'), belemValue.end());
-                Splitter split ( belemValue, "," );
+                SplitString split ( belemValue, "," );
                 uint64 i = 0;
 
                 for (uint32 y = 0; y < _mapSize[1]; y++)
@@ -227,7 +227,7 @@ void Tilemap::_ReadTileLayer(TiXmlElement* elem)
                 belemValue = belem->GetText();
                 belemValue.erase(std::remove(belemValue.begin(), belemValue.end(), '\n'), belemValue.end());
                 belemValue.erase(std::remove(belemValue.begin(), belemValue.end(), '\r'), belemValue.end());
-                Splitter split ( belemValue, "," );
+                SplitString split ( belemValue, "," );
                 uint64 i = 0;
 
                 for (uint32 y = 0; y < _mapSize[1]; y++)

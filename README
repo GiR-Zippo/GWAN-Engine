@@ -12,6 +12,10 @@ sein müssen.
 Um das pr0gramm lauffähig zu bekommen, muss die main.as auf dem Server
 verfügbar sein, denn diese ist der Bootstrap.
 
+By the way, schaut mal bei TrinityCore vorbei, denn dort gibts viele Infos
+wie man Server programmiert und wie man mit der Boostlib spielt.
+
+
 #########################################################################
 #                GWAN-Engine/src/Client/Misc/Common.hpp                 #
 #########################################################################

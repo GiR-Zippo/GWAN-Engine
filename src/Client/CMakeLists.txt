@@ -81,6 +81,7 @@ include_directories(
   ${CMAKE_SOURCE_DIR}/dep/zlib
   ${CMAKE_SOURCE_DIR}/src/Shared/Configuration
   ${CMAKE_SOURCE_DIR}/src/Shared/Cryptography
+  ${CMAKE_SOURCE_DIR}/src/Shared/Dynamic
   ${CMAKE_SOURCE_DIR}/src/Shared/Logging
   ${CMAKE_SOURCE_DIR}/src/Shared/Network
   ${CMAKE_SOURCE_DIR}/src/Shared/Network/Protocol
