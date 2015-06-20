@@ -1,5 +1,5 @@
-#ifndef __LOG_H
-#define __LOG_H
+#ifndef __LOG_HPP__
+#define __LOG_HPP__
 
 #include <stdio.h>
 #include <ace/Singleton.h>
@@ -19,6 +19,5 @@ class Log
         bool _enabled;
         bool _debug;
 };
-
 #define sLog ACE_Singleton<Log, ACE_Thread_Mutex>::instance()
 #endif

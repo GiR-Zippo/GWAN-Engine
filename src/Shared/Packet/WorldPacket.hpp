@@ -1,5 +1,5 @@
-#ifndef __WORLDPACKET_H
-#define __WORLDPACKET_H
+#ifndef __WORLDPACKET_HPP__
+#define __WORLDPACKET_HPP__
 
 #include "Define.hpp"
 #include "OpcodeDefines.hpp"
@@ -27,6 +27,5 @@ class WorldPacket : public ByteBuffer
     private:
         Opcodes m_opcode;
 };
-
 #endif
 

@@ -1,5 +1,5 @@
-#ifndef __SOCKETACCEPTOR_HPP
-#define __SOCKETACCEPTOR_HPP
+#ifndef __SOCKETACCEPTOR_HPP__
+#define __SOCKETACCEPTOR_HPP__
 
 #include <ace/Singleton.h>
 #include <ace/Thread_Mutex.h>
@@ -46,4 +46,4 @@ private:
     Acceptor_BASE<SocketType> *_acceptor;
 };
 
-#endif /* __SOCKETACCEPTOR_HPP */
+#endif /* __SOCKETACCEPTOR_HPP__ */

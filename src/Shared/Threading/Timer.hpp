@@ -1,5 +1,5 @@
-#ifndef __TIMER_H
-#define __TIMER_H
+#ifndef __TIMER_HPP__
+#define __TIMER_HPP__
 
 #include "ace/OS_NS_sys_time.h"
 #include "Define.hpp"

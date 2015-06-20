@@ -1,7 +1,6 @@
 #include "Server.hpp"
 
 #include <ace/OS.h>
-
 #include "Timer.hpp"
 
 Server::Server() : _isRunning(true)

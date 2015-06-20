@@ -451,7 +451,7 @@ ACE_END_VERSIONED_NAMESPACE_DECL
 /**
  *  @file   ETCL_l.cpp
  *
- *  $Id: ETCL_l.cpp 93651 2011-03-28 08:49:11Z johnnyw $
+ *  $Id: ETCL_l.cpp 97932 2014-10-21 15:48:03Z mesnier_p $
  *
  *  @author Carlos O'Ryan <coryan@uci.edu> based on previous work by Seth Widoff <sbw1@cs.wustl.edu>
  */
@@ -476,7 +476,7 @@ static const char* extract_string(char*);
 
 #define YY_BREAK
 #define YY_NO_UNPUT
-
+#define YY_NO_INPUT
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -1283,7 +1283,6 @@ yy_state_type yy_current_state;
   return yy_is_jam ? 0 : yy_current_state;
   }
 
-#if 0
 #ifndef YY_NO_UNPUT
 #ifdef YY_USE_PROTOS
 static void yyunput( int c, register char *yy_bp )
@@ -1327,8 +1326,8 @@ register char *yy_bp;
   yy_c_buf_p = yy_cp;
   }
 #endif  /* ifndef YY_NO_UNPUT */
-#endif /* 0 */
 
+#ifndef YY_NO_INPUT
 #ifdef __cplusplus
 static int yyinput()
 #else
@@ -1400,6 +1399,7 @@ static int input()
 
   return c;
   }
+#endif /* YY_NO_INPUT */
 
 void yyflush_current_buffer (void)
 {

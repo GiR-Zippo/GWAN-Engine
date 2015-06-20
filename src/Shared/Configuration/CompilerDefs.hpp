@@ -16,8 +16,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TRINITY_COMPILERDEFS_H
-#define TRINITY_COMPILERDEFS_H
+#ifndef TRINITY_COMPILERDEFS_HPP
+#define TRINITY_COMPILERDEFS_HPP
 
 #define PLATFORM_WINDOWS 0
 #define PLATFORM_UNIX    1

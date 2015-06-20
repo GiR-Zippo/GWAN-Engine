@@ -2,8 +2,6 @@
 #define __CLIENTSOCKET_HPP
 
 #include "AcceptSocket.hpp"
-
-#include "AcceptSocket.hpp"
 #include "SocketAcceptor.hpp"
 
 class ClientSocket : public AcceptSocket

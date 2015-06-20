@@ -16,8 +16,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef TRINITY_UNORDERED_MAP_H
-#define TRINITY_UNORDERED_MAP_H
+#ifndef TRINITY_UNORDERED_MAP_HPP
+#define TRINITY_UNORDERED_MAP_HPP
 
 #include "CompilerDefs.hpp"
 #include "Define.hpp"

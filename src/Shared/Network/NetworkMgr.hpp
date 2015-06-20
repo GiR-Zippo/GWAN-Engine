@@ -1,5 +1,5 @@
-#ifndef __NETWORKMGR_HPP
-#define __NETWORKMGR_HPP
+#ifndef __NETWORKMGR_HPP__
+#define __NETWORKMGR_HPP__
 
 #include <ace/Singleton.h>
 #include <ace/Reactor.h>

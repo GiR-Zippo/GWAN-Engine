@@ -16,8 +16,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _AUTH_BIGNUMBER_H
-#define _AUTH_BIGNUMBER_H
+#ifndef _AUTH_BIGNUMBER_HPP
+#define _AUTH_BIGNUMBER_HPP
 
 #include "Define.hpp"
 #include <ace/Auto_Ptr.h>

@@ -1,0 +1,407 @@
+/**********************************************\
+|*        (c) 2013-2014 GiR-Zippo             *|
+|*        gir_zippo@hellokitty.com            *|
+\**********************************************/
+
+#include "Textbox.hpp"
+#include "GlobalVars.hpp"
+
+#include <math.h>
+inline int next_p2 (int a )
+{
+    int rval = 1;
+
+    // rval<<=1 Is A Prettier Way Of Writing rval*=2;
+    while (rval < a) rval <<= 1;
+
+    return rval;
+}
+
+// A Fairly Straightforward Function That Pushes
+// A Projection Matrix That Will Make Object World
+// Coordinates Identical To Window Coordinates.
+inline void pushScreenCoordinateMatrix()
+{
+    glPushAttrib(GL_TRANSFORM_BIT);
+    GLint   viewport[4];
+    glGetIntegerv(GL_VIEWPORT, viewport);
+    glMatrixMode(GL_PROJECTION);
+    glPushMatrix();
+    glLoadIdentity();
+    gluOrtho2D(viewport[0], viewport[2], viewport[1], viewport[3]);
+    glPopAttrib();
+}
+
+// Pops The Projection Matrix Without Changing The Current
+// MatrixMode.
+inline void pop_projection_matrix()
+{
+    glPushAttrib(GL_TRANSFORM_BIT);
+    glMatrixMode(GL_PROJECTION);
+    glPopMatrix();
+    glPopAttrib();
+}
+
+Textbox::~Textbox()
+{
+    clean();
+}
+
+Textbox::Textbox(uint16 id, float x, float y, float z, bool depth, float height, std::string text, std::string font):
+Object(id, x, y, z, 0, height, 0, false, false, false)
+{
+    _color->a = 0.5f;
+    _color->r = 1.0f;
+    _color->g = 1.0f;
+    _color->b = 1.0f;
+    _height = height;
+    _fontFile = font;
+    _text = text;
+    _isInteractive = false;
+    _isInitialized = false;
+    _loadBackgroundTexture = false;
+    _texture = 0;
+}
+
+void Textbox::Draw()
+{
+    glLoadIdentity();
+    glTranslatef(0.0f, 0.0f, 0.0f);
+    glRotatef(_rotX, 1, 0, 0);
+    glRotatef(_rotY, 0, 1, 0);
+    glRotatef(_rotZ, 0, 0, 1);
+
+    // Weils ne andere Plane ist wollen wir auch mal den Aspect richtig ausrechnen
+    float w = (float)glutGet(GLUT_WINDOW_WIDTH) / sGlobalVars->GetWidth();
+    float h = (float)glutGet(GLUT_WINDOW_HEIGHT) / sGlobalVars->GetHeight();
+
+    glScalef(w, .8 + .3 * cos(h / 5), 1);
+    print(_x * w, _y * h, _text.c_str());
+}
+
+void Textbox::PostDraw()
+{
+    if (!_isInitialized)
+    {
+        init(GetFilePath(_fontFile).c_str());
+        _isInitialized = true;
+    }
+
+    if (_loadBackgroundTexture)
+    {
+        TextureLoader* tload = new TextureLoader();
+        _texture = tload->LoadTexture(GetFilePath(_backgroundTextureName));
+        delete tload;
+        _loadBackgroundTexture = true;
+    }
+}
+
+void Textbox::SetbackgroundTexture(std::string textureName)
+{
+    _backgroundTextureName = textureName;
+    _loadBackgroundTexture = true;
+}
+
+void Textbox::init(const char* fname)
+{
+    // Allocate Some Memory To Store The Texture Ids.
+    textures = new GLuint[128];
+
+    // Create And Initilize A FreeType Font Library.
+    FT_Library library;
+
+    if (FT_Init_FreeType( &library ))
+        cout << ("FT_Init_FreeType failed\n");
+
+    // The Object In Which FreeType Holds Information On A Given
+    // Font Is Called A "face".
+    FT_Face face;
+
+    // This Is Where We Load In The Font Information From The File.
+    // Of All The Places Where The Code Might Die, This Is The Most Likely,
+    // As FT_New_Face Will Fail If The Font File Does Not Exist Or Is Somehow Broken.
+    if (FT_New_Face( library, fname, 0, &face ))
+        cout << ("FT_New_Face failed (there is probably a problem with your font file)\n");
+
+    // For Some Twisted Reason, FreeType Measures Font Size
+    // In Terms Of 1/64ths Of Pixels.  Thus, To Make A Font
+    // h Pixels High, We Need To Request A Size Of h*64.
+    // (h << 6 Is Just A Prettier Way Of Writing h*64)
+    FT_Set_Char_Size( face, _height << 6, _height << 6, 96, 96);
+
+    // Here We Ask OpenGL To Allocate Resources For
+    // All The Textures And Display Lists Which We
+    // Are About To Create.
+    list_base = glGenLists(128);
+    glGenTextures( 128, textures );
+
+    // This Is Where We Actually Create Each Of The Fonts Display Lists.
+    for (unsigned char i = 0; i < 128; i++)
+        make_dlist(face, i, list_base, textures);
+
+    // We Don't Need The Face Information Now That The Display
+    // Lists Have Been Created, So We Free The Assosiated Resources.
+    FT_Done_Face(face);
+
+    // Ditto For The Font Library.
+    FT_Done_FreeType(library);
+}
+
+void Textbox::clean()
+{
+    glDeleteLists(list_base, 128);
+    glDeleteTextures(128, textures);
+    delete [] textures;
+}
+
+// Create A Display List Corresponding To The Given Character.
+void Textbox::make_dlist ( FT_Face face, char ch, GLuint list_base, GLuint* tex_base )
+{
+
+    // The First Thing We Do Is Get FreeType To Render Our Character
+    // Into A Bitmap.  This Actually Requires A Couple Of FreeType Commands:
+
+    // Load The Glyph For Our Character.
+    if (FT_Load_Glyph( face, FT_Get_Char_Index( face, ch ), FT_LOAD_DEFAULT ))
+        std::cout << "FT_Load_Glyph failed\n";
+
+    // Move The Face's Glyph Into A Glyph Object.
+    FT_Glyph glyph;
+
+    if (FT_Get_Glyph( face->glyph, &glyph ))
+        std::cout << "FT_Get_Glyph failed\n";
+
+    // Convert The Glyph To A Bitmap.
+    FT_Glyph_To_Bitmap( &glyph, ft_render_mode_normal, 0, 1 );
+    FT_BitmapGlyph bitmap_glyph = (FT_BitmapGlyph)glyph;
+
+    // This Reference Will Make Accessing The Bitmap Easier.
+    FT_Bitmap& bitmap = bitmap_glyph->bitmap;
+
+    // Use Our Helper Function To Get The Widths Of
+    // The Bitmap Data That We Will Need In Order To Create
+    // Our Texture.
+    int width = next_p2( bitmap.width );
+    int height = next_p2( bitmap.rows );
+
+    // Allocate Memory For The Texture Data.
+    GLubyte* expanded_data = new GLubyte[ 2 * width * height];
+
+    // Here We Fill In The Data For The Expanded Bitmap.
+    // Notice That We Are Using A Two Channel Bitmap (One For
+    // Channel Luminosity And One For Alpha), But We Assign
+    // Both Luminosity And Alpha To The Value That We
+    // Find In The FreeType Bitmap.
+    // We Use The ?: Operator To Say That Value Which We Use
+    // Will Be 0 If We Are In The Padding Zone, And Whatever
+    // Is The FreeType Bitmap Otherwise.
+    for (int j = 0; j < height; j++)
+    {
+        for (int i = 0; i < width; i++)
+        {
+            expanded_data[2 * (i + j * width)] = expanded_data[2 * (i + j * width) + 1] =
+                    (i >= bitmap.width || j >= bitmap.rows) ?
+                    0 : bitmap.buffer[i + bitmap.width * j];
+        }
+    }
+
+    // Now We Just Setup Some Texture Parameters.
+    glBindTexture( GL_TEXTURE_2D, tex_base[ch]);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
+
+    // Here We Actually Create The Texture Itself, Notice
+    // That We Are Using GL_LUMINANCE_ALPHA To Indicate That
+    // We Are Using 2 Channel Data.
+    glTexImage2D( GL_TEXTURE_2D, 0, GL_RGBA, width, height, 0,
+                  GL_LUMINANCE_ALPHA, GL_UNSIGNED_BYTE, expanded_data );
+
+    // With The Texture Created, We Don't Need The Expanded Data Anymore.
+    delete [] expanded_data;
+
+    // Now We Create The Display List
+    glNewList(list_base + ch, GL_COMPILE);
+
+    glBindTexture(GL_TEXTURE_2D, tex_base[ch]);
+
+    glPushMatrix();
+
+    // First We Need To Move Over A Little So That
+    // The Character Has The Right Amount Of Space
+    // Between It And The One Before It.
+    glTranslatef(bitmap_glyph->left, 0, 0);
+
+    // Now We Move Down A Little In The Case That The
+    // Bitmap Extends Past The Bottom Of The Line
+    // This Is Only True For Characters Like 'g' Or 'y'.
+    glTranslatef(0, bitmap_glyph->top - bitmap.rows, 0);
+
+    // Now We Need To Account For The Fact That Many Of
+    // Our Textures Are Filled With Empty Padding Space.
+    // We Figure What Portion Of The Texture Is Used By
+    // The Actual Character And Store That Information In
+    // The x And y Variables, Then When We Draw The
+    // Quad, We Will Only Reference The Parts Of The Texture
+    // That Contains The Character Itself.
+    float   x = (float)bitmap.width / (float)width,
+            y = (float)bitmap.rows / (float)height;
+
+    // Here We Draw The Texturemapped Quads.
+    // The Bitmap That We Got From FreeType Was Not
+    // Oriented Quite Like We Would Like It To Be,
+    // But We Link The Texture To The Quad
+    // In Such A Way That The Result Will Be Properly Aligned.
+    glBegin(GL_QUADS);
+    glTexCoord2d(0, 0);
+    glVertex2f(0, bitmap.rows);
+    glTexCoord2d(0, y);
+    glVertex2f(0, 0);
+    glTexCoord2d(x, y);
+    glVertex2f(bitmap.width, 0);
+    glTexCoord2d(x, 0);
+    glVertex2f(bitmap.width, bitmap.rows);
+    glEnd();
+    glPopMatrix();
+    glTranslatef(face->glyph->advance.x >> 6 , 0, 0);
+
+    // Increment The Raster Position As If We Were A Bitmap Font.
+    // (Only Needed If You Want To Calculate Text Length)
+    glBitmap(0, 0, 0, 0, face->glyph->advance.x >> 6, 0, NULL);
+
+    // Finish The Display List
+    glEndList();
+}
+
+void Textbox::print(float x, float y, const char* fmt, ... )
+{
+    // We Want A Coordinate System Where Distance Is Measured In Window Pixels.
+    pushScreenCoordinateMatrix();
+
+    GLuint font = list_base;
+    // We Make The Height A Little Bigger.  There Will Be Some Space Between Lines.
+    float h = _height / .63f;
+    char    text[256];                                                                      // Holds Our String
+    va_list ap;                                                                             // Pointer To List Of Arguments
+
+    if (fmt == NULL)                                                                        // If There's No Text
+        *text = 0;                                                                      // Do Nothing
+    else
+    {
+        va_start(ap, fmt);                                                              // Parses The String For Variables
+        vsprintf(text, fmt, ap);                                                        // And Converts Symbols To Actual Numbers
+        va_end(ap);                                                                     // Results Are Stored In Text
+    }
+
+    // Here Is Some Code To Split The Text That We Have Been
+    // Given Into A Set Of Lines.
+    // This Could Be Made Much Neater By Using
+    // A Regular Expression Library Such As The One Available From
+    // boost.org (I've Only Done It Out By Hand To Avoid Complicating
+    // This Tutorial With Unnecessary Library Dependencies).
+    const char* start_line = text;
+    vector<string> lines;
+    const char* c;
+
+    for (c = text; *c; c++)
+    {
+        if (*c == '\n')
+        {
+            string line;
+
+            for (const char* n = start_line; n < c; n++) line.append(1, *n);
+
+            lines.push_back(line);
+            start_line = c + 1;
+        }
+    }
+
+    if (start_line)
+    {
+        string line;
+
+        for (const char* n = start_line; n < c; n++) line.append(1, *n);
+
+        lines.push_back(line);
+    }
+
+    glPushAttrib(GL_LIST_BIT | GL_CURRENT_BIT  | GL_ENABLE_BIT | GL_TRANSFORM_BIT);
+    glMatrixMode(GL_MODELVIEW);
+    glDisable(GL_LIGHTING);
+    glEnable(GL_TEXTURE_2D);
+    glDisable(GL_DEPTH_TEST);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glListBase(font);
+
+    float modelview_matrix[16];
+    glGetFloatv(GL_MODELVIEW_MATRIX, modelview_matrix);
+
+    // This Is Where The Text Display Actually Happens.
+    // For Each Line Of Text We Reset The Modelview Matrix
+    // So That The Line's Text Will Start In The Correct Position.
+    // Notice That We Need To Reset The Matrix, Rather Than Just Translating
+    // Down By h. This Is Because When Each Character Is
+    // Drawn It Modifies The Current Matrix So That The Next Character
+    // Will Be Drawn Immediately After It.
+    // Soo mal die Länge für die Textbox holen
+    float rpos[4];
+    float lenx = 0;
+    float leny = _y;
+    for (size_t i = 0; i < lines.size(); i++)
+    {
+        glPushMatrix();
+        glLoadIdentity();
+        glColor4f(_color->r,_color->g,_color->b,_color->a);
+        glTranslatef(x, y - h * i, 0);
+        glMultMatrixf(modelview_matrix);
+
+        // The Commented Out Raster Position Stuff Can Be Useful If You Need To
+        // Know The Length Of The Text That You Are Creating.
+        // If You Decide To Use It Make Sure To Also Uncomment The glBitmap Command
+        // In make_dlist().
+        glRasterPos2f(0, 0);
+        glCallLists(lines[i].length(), GL_UNSIGNED_BYTE, lines[i].c_str());
+        glPopMatrix();
+        glGetFloatv(GL_CURRENT_RASTER_POSITION , rpos);
+        if (lenx > x - rpos[0])
+            lenx = x - rpos[0];
+    }
+
+    glPushMatrix();
+    {   
+        //erstmal alles für den Frame ausrechnen
+        uint16 clines = lines.size();
+        float habs = (float)glutGet(GLUT_WINDOW_HEIGHT) / 768;
+        float yp = (_y - h*clines) * habs;
+
+        glBindTexture(GL_TEXTURE_2D, _texture);
+        glTranslatef(_x, (yp - h * habs) + _y/100, 0);
+        glColor4f(_color->r,_color->g,_color->b,_color->a);
+        glBegin(GL_QUADS);
+        {
+            glTexCoord2d(0.0, 1.0);
+            glVertex2d(-10, h*clines);
+
+            glTexCoord2d(1.0, 1.0);
+            glVertex2d((-lenx) + 10, h*clines);
+
+            glTexCoord2d(1.0, 0.0);
+            glVertex2d((-lenx) + 10, -10);
+
+            glTexCoord2d(0.0, 0.0);
+            glVertex2d(-10, -10);
+        }
+        glEnd();
+    }
+    glPopMatrix();
+
+    glPopAttrib();
+    pop_projection_matrix();
+}
+
+//Interaktionen
+void Textbox::SetReturnKeyOn(uint8 key)
+{
+
+}

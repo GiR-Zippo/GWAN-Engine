@@ -18,8 +18,6 @@
 #define SERVER_CONFIG "server.conf"
 #endif /* SERVER_CONFIG */
 
-#define SERVER_PORT 39235
-
 extern int main(int argc, char **argv)
 {
     sLog->outString("Startup");

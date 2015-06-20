@@ -1,11 +1,11 @@
-#ifndef __SOCKETCONNECTOR_HPP
-#define __SOCKETCONNECTOR_HPP
+#ifndef __SOCKETCONNECTOR_HPP__
+#define __SOCKETCONNECTOR_HPP__
 
 #include <ace/Connector.h>
 #include <ace/SOCK_Connector.h>
 
-#include "NetworkMgr.h"
-#include "Socket.h"
+#include "NetworkMgr.hpp"
+#include "Socket.hpp"
 
 class SocketConnector
 {
@@ -50,4 +50,4 @@ private:
 
 #define sSocketConnector ACE_Singleton<SocketConnector, ACE_Thread_Mutex>::instance()
 
-#endif /* __SOCKETCONNECTOR_HPP */
+#endif /* __SOCKETCONNECTOR_HPP__ */

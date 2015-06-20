@@ -16,8 +16,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef THREADING_H
-#define THREADING_H
+#ifndef THREADING_HPP
+#define THREADING_HPP
 
 #include <ace/Thread.h>
 #include <ace/TSS_T.h>

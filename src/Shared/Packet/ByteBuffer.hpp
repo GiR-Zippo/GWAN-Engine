@@ -16,8 +16,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef _BYTEBUFFER_H
-#define _BYTEBUFFER_H
+#ifndef _BYTEBUFFER_HPP_
+#define _BYTEBUFFER_HPP_
 
 #include "Define.hpp"
 #include "ByteConverter.hpp"

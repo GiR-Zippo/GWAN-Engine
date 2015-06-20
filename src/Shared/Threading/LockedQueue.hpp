@@ -16,8 +16,8 @@
  * with this program. If not, see <http://www.gnu.org/licenses/>.
  */
 
-#ifndef LOCKEDQUEUE_H
-#define LOCKEDQUEUE_H
+#ifndef LOCKEDQUEUE_HPP
+#define LOCKEDQUEUE_HPP
 
 #include <ace/Guard_T.h>
 #include <ace/Thread_Mutex.h>

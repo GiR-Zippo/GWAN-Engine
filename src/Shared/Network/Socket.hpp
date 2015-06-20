@@ -1,5 +1,5 @@
-#ifndef __SOCKET_H_
-#define __SOCKET_H_
+#ifndef __SOCKET_HPP_
+#define __SOCKET_HPP_
 
 #include <ace/Basic_Types.h>
 #include <ace/Synch_Traits.h>
