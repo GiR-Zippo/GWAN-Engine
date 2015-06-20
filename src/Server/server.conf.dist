@@ -1,0 +1,32 @@
+[server]
+#####################################################
+#                Prim Configs                       #
+#####################################################
+
+#Port to listen
+ListenPort = 39235
+
+# Where are the SiteConfigs?
+DataDir=""
+
+
+#####################################################
+#                    Logging                        #
+#####################################################
+# Enable the (Debug) Log 0/1
+Log.Enabled = 0
+Log.Debug.On = 0
+
+#####################################################
+#                The Cache                          #
+#####################################################
+
+# Cache Enabled 0/1
+Cache.Enabled = 0
+
+# Which files should be cached
+Cache.Files = "jpg,png"
+
+# How many seconds should the data stored in cache
+Cache.Time = 10
+

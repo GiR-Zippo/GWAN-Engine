@@ -19,8 +19,8 @@
 #ifndef TRINITY_UNORDERED_MAP_H
 #define TRINITY_UNORDERED_MAP_H
 
-#include "CompilerDefs.h"
-#include "Define.h"
+#include "CompilerDefs.hpp"
+#include "Define.hpp"
 
 #if COMPILER == COMPILER_INTEL
 #include <ext/hash_map>

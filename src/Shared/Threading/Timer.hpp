@@ -2,7 +2,7 @@
 #define __TIMER_H
 
 #include "ace/OS_NS_sys_time.h"
-#include "Define.h"
+#include "Define.hpp"
 
 inline uint32 GetMSTime()
 {

@@ -3,5 +3,5 @@ if(CMAKE_COMPILER_IS_GNUCXX AND NOT MINGW)
 endif()
 
 #add_subdirectory(Client)
-#add_subdirectory(Server)
+add_subdirectory(Server)
 add_subdirectory(Shared)

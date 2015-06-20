@@ -1,7 +1,7 @@
 #ifndef __ACCEPTSOCKET_HPP
 #define __ACCEPTSOCKET_HPP
 
-#include "Socket.h"
+#include "Socket.hpp"
 
 class AcceptSocket : public Socket
 {

@@ -6,7 +6,7 @@
 #include <ace/Acceptor.h>
 #include <ace/SOCK_Acceptor.h>
 
-#include "Log.h"
+#include "Log.hpp"
 
 template <class SocketType>
 class Acceptor_BASE : public ACE_Acceptor<SocketType, ACE_SOCK_Acceptor>

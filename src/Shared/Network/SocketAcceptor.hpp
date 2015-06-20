@@ -4,8 +4,8 @@
 #include <ace/Singleton.h>
 #include <ace/Thread_Mutex.h>
 
-#include "Acceptor_BASE.h"
-#include "NetworkMgr.h"
+#include "Acceptor_BASE.hpp"
+#include "NetworkMgr.hpp"
 
 class ACE_Event_Handler;
 
