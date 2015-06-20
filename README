@@ -3,12 +3,39 @@
 #########################################################################
 
 Eigentlich ist das ganze eine Art Gameengine für 2D-Tiler.
+Das ganze lässt sich sowohl unter Linux als auch unter Windows verwenden.
+Achtung: Es muss mindestens VC++2012 
+
 Gesteuert wird alles über Scripts, welche mit in Angelscript geschrieben
 sein müssen.
 
 Um das pr0gramm lauffähig zu bekommen, muss die main.as auf dem Server
 verfügbar sein, denn diese ist der Bootstrap.
 
-Data-Path ist in der Common.hpp definiert..
-#define PATH
- 
+#########################################################################
+#                GWAN-Engine/src/Client/Misc/Common.hpp                 #
+#########################################################################
+GWAN-Engine/src/Client/Misc/Common.hpp definiert einige Variablen
+#define _RREL_
+ist das auskommentiert, so kann man unten zum debuggen Debugpfade eingeben
+
+#define SERVER_PORT 39235
+Definiert den SERVER_PORT
+
+#define SERVER_ADDRESS "127.0.0.1"
+Definiert die SERVER_ADDRESS
+
+
+#########################################################################
+#               GWAN-Engine/src/Client/Misc/GlobalVars.hpp              #
+#########################################################################
+#define SHOW_CONSOLE
+Zeigt die Konsole in Windows an
+
+#########################################################################
+#                     GWAN-Engine/src/Client/main.cpp                   #
+#########################################################################
+sGlobalVars->SetResolution(1280, 768);
+Stellt die Anfangsauflösung ein
+
+
