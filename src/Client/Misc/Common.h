@@ -1,5 +1,5 @@
 /**********************************************\
-|*        (c) 2013-2014 GiR-Zippo             *|
+|*        (c) 2013-2015 GiR-Zippo             *|
 |*        gir_zippo@hellokitty.com            *|
 \**********************************************/
 
@@ -30,7 +30,6 @@
 using namespace std;
 
 #define SERVER_PORT 39235
-//#define SERVER_ADDRESS "mail.Laenalith-wow.com"
 #define SERVER_ADDRESS "127.0.0.1"
 
 #ifdef WIN32

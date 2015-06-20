@@ -1,5 +1,5 @@
 /**********************************************\
-|*        (c) 2013-2014 GiR-Zippo             *|
+|*        (c) 2013-2015 GiR-Zippo             *|
 |*        gir_zippo@hellokitty.com            *|
 \**********************************************/
 
@@ -12,8 +12,6 @@
 #include "SoundMgr.hpp"
 #include "DownloadSystem.hpp"
 #include "ObjectMgr.hpp"
-
-#define SHOW_CONSOLE
 
 ACE_Based::Thread DLMGR;
 ACE_Based::Thread OMGR;
@@ -96,12 +94,12 @@ int main(int argc, char **argv)
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
     glutInitWindowSize(sGlobalVars->GetWidth(), sGlobalVars->GetHeight());
-    glutCreateWindow("Launcher");
+    glutCreateWindow("GWAN");
 
     /* Versions und EngineName */
-    cout << "Laenalith-Launcher\n";
-    cout << "Engine: Natalia v0.6.1\n";
-    cout << "(c) 2013-2014 GiR-Zippo@hellokitty.com\n";
+    cout << "GWAN-Launcher\n";
+    cout << "Engine: Natalia v0.6.2\n";
+    cout << "(c) 2013-2015 GiR-Zippo@hellokitty.com\n";
     /* Check GLEW */
     GLenum res = glewInit();
     if (res != GLEW_OK)

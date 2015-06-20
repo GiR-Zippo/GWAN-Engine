@@ -1,5 +1,5 @@
 /**********************************************\
-|*        (c) 2013-2014 GiR-Zippo             *|
+|*        (c) 2013-2015 GiR-Zippo             *|
 |*        gir_zippo@hellokitty.com            *|
 \**********************************************/
 
@@ -62,7 +62,7 @@ void DownloadSession::Handle_SMSG_SEND_FILE_BLOCK(WorldPacket& recvPacket)
     //Filename
     recvPacket >> filename;
 
-    //Größe
+    //Grï¿½ï¿½e
     uint64 fsize = GetFileSize(GetFilePath(filename));
 
     recvPacket >> size;
