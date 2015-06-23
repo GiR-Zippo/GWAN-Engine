@@ -55,7 +55,7 @@ struct FileHeader
     std::map<uint8, uint8> hash;
 };
 
-#define _RREL_
+//#define _RREL_
 
 static std::string GetPath()
 {

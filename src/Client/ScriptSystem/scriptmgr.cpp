@@ -122,7 +122,7 @@ int CScriptMgr::Init(Launcher *launcher)
     r = engine->RegisterObjectMethod("CScript", "int SetTextboxBackgroundTexture(uint32 id, string texture)", asMETHOD(ScriptObject, SetTextboxBackgroundTexture), asCALL_THISCALL); assert( r >= 0 );
 
     ///- Sorted
-    ///- SoundZeugs
+    ///- Soundbefehle
     r = engine->RegisterObjectMethod("CScript", "uint32 LoadSound(string file)", asMETHOD(ScriptObject, LoadSound), asCALL_THISCALL); assert( r >= 0 );
     r = engine->RegisterObjectMethod("CScript", "void PlaySound(uint32 id)", asMETHOD(ScriptObject, PlaySound), asCALL_THISCALL); assert( r >= 0 );
     r = engine->RegisterObjectMethod("CScript", "void StopSound(uint32 id)", asMETHOD(ScriptObject, StopSound), asCALL_THISCALL); assert( r >= 0 );
@@ -130,7 +130,7 @@ int CScriptMgr::Init(Launcher *launcher)
     r = engine->RegisterObjectMethod("CScript", "uint32 GetSoundIdByName(string file)", asMETHOD(ScriptObject, GetSoundIdByName), asCALL_THISCALL); assert( r >= 0 );
     r = engine->RegisterObjectMethod("CScript", "void UnloadSound(uint32 id)", asMETHOD(ScriptObject, UnloadSound), asCALL_THISCALL); assert( r >= 0 );
 
-    ///- Textures
+    ///- Texturbefehle
     r = engine->RegisterObjectMethod("CScript", "int Load2DMidmap(string &in)", asMETHOD(ScriptObject, Load2DMidmap), asCALL_THISCALL); assert( r >= 0 );
     r = engine->RegisterObjectMethod("CScript", "void DeleteTexture(uint16 texture)", asMETHOD(ScriptObject, DeleteTexture), asCALL_THISCALL); assert( r >= 0 );
 
