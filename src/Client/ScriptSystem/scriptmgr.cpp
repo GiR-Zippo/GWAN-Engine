@@ -69,37 +69,10 @@ int CScriptMgr::Init(Launcher *launcher)
     r = engine->RegisterObjectMethod("CScript", "void print(uint64 data)", asMETHOD(ScriptObject, PrintUInt), asCALL_THISCALL); assert( r >= 0 );
     r = engine->RegisterObjectMethod("CScript", "void print(float data)", asMETHOD(ScriptObject, PrintFloat), asCALL_THISCALL); assert( r >= 0 );
 
-    ///- Objects
-    r = engine->RegisterObjectMethod("CScript", "int CreateObject(float x, float y, float z, float sx, float sy, uint16 tex, bool depth, bool ortho, bool clickable)", asMETHOD(ScriptObject, CreateObject), asCALL_THISCALL); assert( r >= 0 );
-    r = engine->RegisterObjectMethod("CScript", "int CreateLoadingObject(float x, float y, float z, float sx, float sy, uint16 texture, bool depth)", asMETHOD(ScriptObject, CreateLoadingObject), asCALL_THISCALL); assert( r >= 0 );
-    r = engine->RegisterObjectMethod("CScript", "int CreateSprite(float x, float y, float z, string tileimage, uint32 tileX, uint32 tileY)", asMETHOD(ScriptObject, CreateSprite), asCALL_THISCALL); assert( r >= 0 );
-
-    ///- Textausgabe
-    r = engine->RegisterObjectMethod("CScript", "int CreateTextObject(float x, float y, float z, bool depth, float height, string text, string font)", asMETHOD(ScriptObject, CreateTextObject), asCALL_THISCALL); assert( r >= 0 );
-    r = engine->RegisterObjectMethod("CScript", "int CreateTextbox(float x, float y, float z, bool depth, float height, string text, string font)", asMETHOD(ScriptObject, CreateTextbox), asCALL_THISCALL); assert( r >= 0 );
-
-    ///- 3DModelle
-    r = engine->RegisterObjectMethod("CScript", "int CreateMS3DModel(float x, float y, float z, string path, string filename)", asMETHOD(ScriptObject, CreateMS3DModel), asCALL_THISCALL); assert( r >= 0 );
-    r = engine->RegisterObjectMethod("CScript", "int CreateWavefrontModel(float x, float y, float z, string path, string filename)", asMETHOD(ScriptObject, CreateWavefrontModel), asCALL_THISCALL); assert( r >= 0 );
-
-    ///- TileMapping
-    r = engine->RegisterObjectMethod("CScript", "int CreateTileMap(float x, float y, float z, string filename)", asMETHOD(ScriptObject, CreateTileMap), asCALL_THISCALL); assert( r >= 0 );
-    r = engine->RegisterObjectMethod("CScript", "void SetActiveMap(uint16 id)", asMETHOD(ScriptObject, SetActiveMap), asCALL_THISCALL); assert( r >= 0 );
-    r = engine->RegisterObjectMethod("CScript", "int GetActiveMap(uint16 id)", asMETHOD(ScriptObject, GetActiveMap), asCALL_THISCALL); assert( r >= 0 );
-
-    ///- WorldObjekte
-    r = engine->RegisterObjectMethod("CScript", "int CreateWorldObject(float x, float y, float z, string Scriptname)", asMETHOD(ScriptObject, CreateWorldObject), asCALL_THISCALL); assert( r >= 0 );
-    r = engine->RegisterObjectMethod("CScript", "int CreateWorldObjectCreature(float x, float y, float z, string Scriptname)", asMETHOD(ScriptObject, CreateWorldObjectCreature), asCALL_THISCALL); assert( r >= 0 );
-    r = engine->RegisterObjectMethod("CScript", "int CreateWorldObjectPlayer(float x, float y, float z, string tilesetname)", asMETHOD(ScriptObject, CreateWorldObjectPlayer), asCALL_THISCALL); assert( r >= 0 );
-
-    ///-ObjectMgr
-    r = engine->RegisterObjectMethod("CScript", "int DeleteObject(uint16 id)", asMETHOD(ScriptObject, DeleteObject), asCALL_THISCALL); assert( r >= 0 );
-    r = engine->RegisterObjectMethod("CScript", "void AddObjectToUpdate(uint16 pos, uint16 id)", asMETHOD(ScriptObject, AddObjectToUpdate), asCALL_THISCALL); assert( r >= 0 );
-    r = engine->RegisterObjectMethod("CScript", "void FlushUpdateList()", asMETHOD(ScriptObject, FlushUpdateList), asCALL_THISCALL); assert( r >= 0 );
-    r = engine->RegisterObjectMethod("CScript", "void RemoveObjectFromUpdateByPosition(uint16 pos)", asMETHOD(ScriptObject, RemoveObjectFromUpdateByPosition), asCALL_THISCALL); assert( r >= 0 );
-    r = engine->RegisterObjectMethod("CScript", "void RemoveObjectFromUpdate(uint16 id)", asMETHOD(ScriptObject, RemoveObjectFromUpdate), asCALL_THISCALL); assert( r >= 0 );
-
-    ///- Object Manipulation
+    /**********************************************************************\
+    |*                         Object Manipulation                        *|
+    |*                     ScriptObjectManipulation.cpp                   *|
+    \**********************************************************************/
     r = engine->RegisterObjectMethod("CScript", "void SetObjectRGBA(uint32 id, float r, float g, float b, float a)", asMETHOD(ScriptObject, SetObjectRGBA), asCALL_THISCALL); assert( r >= 0 );
     r = engine->RegisterObjectMethod("CScript", "void MoveObjectXY(uint32 id, float x, float y)", asMETHOD(ScriptObject, MoveObjectXY), asCALL_THISCALL); assert( r >= 0 );
     r = engine->RegisterObjectMethod("CScript", "void MoveObjectXYZ(uint32 id, float x, float y, float z)", asMETHOD(ScriptObject, MoveObjectXYZ), asCALL_THISCALL); assert( r >= 0 );
@@ -110,29 +83,75 @@ int CScriptMgr::Init(Launcher *launcher)
     r = engine->RegisterObjectMethod("CScript", "void SetObjectSizeX(uint32 id, float x)",   asMETHOD(ScriptObject, ObjectSizeX), asCALL_THISCALL); assert( r >= 0 );
     r = engine->RegisterObjectMethod("CScript", "void SetObjectSizeY(uint32 id, float y)",   asMETHOD(ScriptObject, ObjectSizeY), asCALL_THISCALL); assert( r >= 0 );
 
-    r = engine->RegisterObjectMethod("CScript", "float GetObjectPosX(uint32 id)",   asMETHOD(ScriptObject, GetPositionX), asCALL_THISCALL); assert( r >= 0 );    
-    r = engine->RegisterObjectMethod("CScript", "float GetObjectPosY(uint32 id)",   asMETHOD(ScriptObject, GetPositionY), asCALL_THISCALL); assert( r >= 0 );    
-     
-    ///- TextObject
-    r = engine->RegisterObjectMethod("CScript", "void SetNewText(uint32 id, string Text)", asMETHOD(ScriptObject, SetNewText), asCALL_THISCALL); assert( r >= 0 );
-    r = engine->RegisterObjectMethod("CScript", "void SetTextCenterX(uint32 id, bool arg)", asMETHOD(ScriptObject, SetTextCenterX), asCALL_THISCALL); assert( r >= 0 );
-    r = engine->RegisterObjectMethod("CScript", "void SetTextCenterY(uint32 id, bool arg)", asMETHOD(ScriptObject, SetTextCenterY), asCALL_THISCALL); assert( r >= 0 );
+    r = engine->RegisterObjectMethod("CScript", "float GetObjectPosX(uint32 id)",   asMETHOD(ScriptObject, GetPositionX), asCALL_THISCALL); assert( r >= 0 );
+    r = engine->RegisterObjectMethod("CScript", "float GetObjectPosY(uint32 id)",   asMETHOD(ScriptObject, GetPositionY), asCALL_THISCALL); assert( r >= 0 );
 
-    ///- TextboxZeugs
-    r = engine->RegisterObjectMethod("CScript", "int SetTextboxBackgroundTexture(uint32 id, string texture)", asMETHOD(ScriptObject, SetTextboxBackgroundTexture), asCALL_THISCALL); assert( r >= 0 );
+    /**********************************************************************\
+    |*                              Spriteobject                          *|
+    |*                          ScriptObjectSprite.cpp                    *|
+    \**********************************************************************/
+    r = engine->RegisterObjectMethod("CScript", "int CreateSprite(float x, float y, float z, string tileimage, uint32 tileX, uint32 tileY)", asMETHOD(ScriptObject, CreateSprite), asCALL_THISCALL); assert( r >= 0 );
+    r = engine->RegisterObjectMethod("CScript", "void SetSpriteAminamtionFrame(uint32 id, uint32 frameid)", asMETHOD(ScriptObject, SetSpriteAminamtionFrame), asCALL_THISCALL); assert( r >= 0 );
 
-    ///- Sorted
-    ///- Soundbefehle
-    r = engine->RegisterObjectMethod("CScript", "uint32 LoadSound(string file)", asMETHOD(ScriptObject, LoadSound), asCALL_THISCALL); assert( r >= 0 );
+    /**********************************************************************\
+    |*                              Soundobjects                          *|
+    |*                          ScriptObjectSound.cpp                     *|
+    \**********************************************************************/
+    r = engine->RegisterObjectMethod("CScript", "uint32 SoundLoadSound(string file)", asMETHOD(ScriptObject, LoadSound), asCALL_THISCALL); assert( r >= 0 );
     r = engine->RegisterObjectMethod("CScript", "void PlaySound(uint32 id)", asMETHOD(ScriptObject, PlaySound), asCALL_THISCALL); assert( r >= 0 );
     r = engine->RegisterObjectMethod("CScript", "void StopSound(uint32 id)", asMETHOD(ScriptObject, StopSound), asCALL_THISCALL); assert( r >= 0 );
     r = engine->RegisterObjectMethod("CScript", "void SetSoundVolume(uint32 id, float vol)", asMETHOD(ScriptObject, SetSoundVolume), asCALL_THISCALL); assert( r >= 0 );
     r = engine->RegisterObjectMethod("CScript", "uint32 GetSoundIdByName(string file)", asMETHOD(ScriptObject, GetSoundIdByName), asCALL_THISCALL); assert( r >= 0 );
     r = engine->RegisterObjectMethod("CScript", "void UnloadSound(uint32 id)", asMETHOD(ScriptObject, UnloadSound), asCALL_THISCALL); assert( r >= 0 );
 
-    ///- Texturbefehle
+    /**********************************************************************\
+    |*                              Textobject                            *|
+    |*                          ScriptObjectText.cpp                      *|
+    \**********************************************************************/
+    r = engine->RegisterObjectMethod("CScript", "int CreateTextObject(float x, float y, float z, bool depth, float height, string text, string font)", asMETHOD(ScriptObject, CreateTextObject), asCALL_THISCALL); assert( r >= 0 );
+    r = engine->RegisterObjectMethod("CScript", "void SetNewText(uint32 id, string Text)", asMETHOD(ScriptObject, SetNewText), asCALL_THISCALL); assert( r >= 0 );
+    r = engine->RegisterObjectMethod("CScript", "void SetTextCenterX(uint32 id, bool arg)", asMETHOD(ScriptObject, SetTextCenterX), asCALL_THISCALL); assert( r >= 0 );
+    r = engine->RegisterObjectMethod("CScript", "void SetTextCenterY(uint32 id, bool arg)", asMETHOD(ScriptObject, SetTextCenterY), asCALL_THISCALL); assert( r >= 0 );
+    r = engine->RegisterObjectMethod("CScript", "int CreateTextbox(float x, float y, float z, bool depth, float height, string text, string font)", asMETHOD(ScriptObject, CreateTextbox), asCALL_THISCALL); assert( r >= 0 );
+    r = engine->RegisterObjectMethod("CScript", "int SetTextboxBackgroundTexture(uint32 id, string texture)", asMETHOD(ScriptObject, SetTextboxBackgroundTexture), asCALL_THISCALL); assert( r >= 0 );
+
+    /**********************************************************************\
+    |*                            Texturehandling                         *|
+    |*                        ScriptObjectTexture.cpp                     *|
+    \**********************************************************************/
     r = engine->RegisterObjectMethod("CScript", "int Load2DMidmap(string &in)", asMETHOD(ScriptObject, Load2DMidmap), asCALL_THISCALL); assert( r >= 0 );
     r = engine->RegisterObjectMethod("CScript", "void DeleteTexture(uint16 texture)", asMETHOD(ScriptObject, DeleteTexture), asCALL_THISCALL); assert( r >= 0 );
+
+    /**********************************************************************\
+    |*                             Worldobjects                           *|
+    |*                      ScriptObjectWorldObject.cpp                   *|
+    \**********************************************************************/
+    r = engine->RegisterObjectMethod("CScript", "int CreateWorldObject(float x, float y, float z, string Scriptname)", asMETHOD(ScriptObject, CreateWorldObject), asCALL_THISCALL); assert( r >= 0 );
+    r = engine->RegisterObjectMethod("CScript", "int CreateWorldObjectCreature(float x, float y, float z, string Scriptname)", asMETHOD(ScriptObject, CreateWorldObjectCreature), asCALL_THISCALL); assert( r >= 0 );
+    r = engine->RegisterObjectMethod("CScript", "int CreateWorldObjectPlayer(float x, float y, float z, string tilesetname)", asMETHOD(ScriptObject, CreateWorldObjectPlayer), asCALL_THISCALL); assert( r >= 0 );
+
+    ///- Objects
+    r = engine->RegisterObjectMethod("CScript", "int CreateObject(float x, float y, float z, float sx, float sy, uint16 tex, bool depth, bool ortho, bool clickable)", asMETHOD(ScriptObject, CreateObject), asCALL_THISCALL); assert( r >= 0 );
+    r = engine->RegisterObjectMethod("CScript", "int CreateLoadingObject(float x, float y, float z, float sx, float sy, uint16 texture, bool depth)", asMETHOD(ScriptObject, CreateLoadingObject), asCALL_THISCALL); assert( r >= 0 );
+
+    ///- 3DModelle
+    r = engine->RegisterObjectMethod("CScript", "int CreateMS3DModel(float x, float y, float z, string path, string filename)", asMETHOD(ScriptObject, CreateMS3DModel), asCALL_THISCALL); assert( r >= 0 );
+    r = engine->RegisterObjectMethod("CScript", "int CreateWavefrontModel(float x, float y, float z, string path, string filename)", asMETHOD(ScriptObject, CreateWavefrontModel), asCALL_THISCALL); assert( r >= 0 );
+
+    ///- TileMapping
+    r = engine->RegisterObjectMethod("CScript", "int CreateTileMap(float x, float y, float z, string filename)", asMETHOD(ScriptObject, CreateTileMap), asCALL_THISCALL); assert( r >= 0 );
+    r = engine->RegisterObjectMethod("CScript", "void SetActiveMap(uint16 id)", asMETHOD(ScriptObject, SetActiveMap), asCALL_THISCALL); assert( r >= 0 );
+    r = engine->RegisterObjectMethod("CScript", "int GetActiveMap(uint16 id)", asMETHOD(ScriptObject, GetActiveMap), asCALL_THISCALL); assert( r >= 0 );
+
+
+    ///-ObjectMgr
+    r = engine->RegisterObjectMethod("CScript", "int DeleteObject(uint16 id)", asMETHOD(ScriptObject, DeleteObject), asCALL_THISCALL); assert( r >= 0 );
+    r = engine->RegisterObjectMethod("CScript", "void AddObjectToUpdate(uint16 pos, uint16 id)", asMETHOD(ScriptObject, AddObjectToUpdate), asCALL_THISCALL); assert( r >= 0 );
+    r = engine->RegisterObjectMethod("CScript", "void FlushUpdateList()", asMETHOD(ScriptObject, FlushUpdateList), asCALL_THISCALL); assert( r >= 0 );
+    r = engine->RegisterObjectMethod("CScript", "void RemoveObjectFromUpdateByPosition(uint16 pos)", asMETHOD(ScriptObject, RemoveObjectFromUpdateByPosition), asCALL_THISCALL); assert( r >= 0 );
+    r = engine->RegisterObjectMethod("CScript", "void RemoveObjectFromUpdate(uint16 id)", asMETHOD(ScriptObject, RemoveObjectFromUpdate), asCALL_THISCALL); assert( r >= 0 );
+
+
 
     ///- Others
     r = engine->RegisterObjectMethod("CScript", "int Rand()", asMETHOD(ScriptObject, Rand), asCALL_THISCALL); assert( r >= 0 );

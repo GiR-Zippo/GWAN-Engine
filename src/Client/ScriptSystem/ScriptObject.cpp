@@ -4,7 +4,6 @@
 \**********************************************/
 
 #include <math.h>
-#include "TextureLoader.hpp" //Der wills so
 
 #include "ScriptObject.hpp"
 #include "scriptmgr.h"
@@ -17,9 +16,6 @@
 #include "PlanarObject.hpp"
 
 #include "Tilemap.hpp"
-
-#include "Sound.hpp"
-#include "SoundMgr.hpp"
 
 #include "WorldObject.hpp"
 #include "Creature.hpp"
@@ -204,20 +200,6 @@ void ScriptObject::KeyPressed(uint8 key)
 /************************************************************\
 |*           Hier geht die eigentliche Objectlist los       *|
 \************************************************************/
-void ScriptObject::FlushTextures()
-{
-    uint32 vTex = 0;
-    for (uint32 i = 0; i != MAX_TEXURES; i++)
-    {
-        if (glIsTexture(i))
-        {
-            _textures[vTex] = i;
-            vTex++;
-        }
-    }
-    glDeleteTextures(vTex, _textures);
-}
-
 void ScriptObject::FlushObjects()
 {
     for (GLuint i = 0; i != MAX_TEXURES; i++)
@@ -303,12 +285,6 @@ int ScriptObject::CreateLoadingObject(float x, float y, float z, float sx, float
     return _AddObject(object);
 }
 
-int ScriptObject::CreateSprite(float x, float y, float z, std::string tileimage, uint32 tileX, uint32 tileY)
-{
-    Object *object = new Sprite(_objectIndex, x, y, z, tileimage, tileX, tileY);
-    return _AddObject(object);
-}
-
 ///- 3DModelle
 int ScriptObject::CreateMS3DModel(float x, float y, float z, string path, string filename)
 {
@@ -334,91 +310,6 @@ int ScriptObject::CreateTileMap(float x, float y, float z, std::string filename)
     return _AddObject(object);
 }
 
-void ScriptObject::SetObjectRGBA(uint32 id, float r, float g, float b, float a)
-{
-    if(_objectList[id])
-        _objectList[id]->SetObjectRGBA(r,g,b,a);
-}
-
-void ScriptObject::MoveObjectXY(uint32 id, float x, float y)
-{
-    if(_objectList[id])
-        _objectList[id]->MoveXY(x,y);
-}
-
-void ScriptObject::MoveObjectXYZ(uint32 id, float x, float y, float z)
-{
-    if(_objectList[id])
-        _objectList[id]->MoveXYZ(x,y,z);
-}
-
-void ScriptObject::SetRotationXYZ(uint32 id, float x, float y, float z)
-{
-    if(_objectList[id])
-        _objectList[id]->SetRotationXYZ(x,y,z);
-}
-
-void ScriptObject::RotateObjectX(uint32 id, float x)
-{
-    if(_objectList[id])
-        _objectList[id]->SetRotX(x);
-}
-
-void ScriptObject::RotateObjectY(uint32 id, float y)
-{
-    if(_objectList[id])
-        _objectList[id]->SetRotY(y);
-}
-
-void ScriptObject::RotateObjectZ(uint32 id, float z)
-{
-    if(_objectList[id])
-        _objectList[id]->SetRotZ(z);
-}
-
-void ScriptObject::ObjectSizeX(uint32 id, float x)
-{
-    if(_objectList[id])
-        _objectList[id]->SetSizeX(x);
-}
-
-void ScriptObject::ObjectSizeY(uint32 id, float y)
-{
-    if(_objectList[id])
-        _objectList[id]->SetSizeY(y);
-}
-
-float ScriptObject::GetPositionX(uint32 id)
-{
-    if(_objectList[id])
-        return _objectList[id]->GetPositionX();
-    return 0;
-}
-
-float ScriptObject::GetPositionY(uint32 id)
-{
-    if(_objectList[id])
-        return _objectList[id]->GetPositionY();
-    return 0;
-}
-
-///- Textures
-int ScriptObject::Load2DMidmap(string &str)
-{
-    int tex = 0;
-    TextureLoader *tload = new TextureLoader();
-    tex = tload->Load2DMipmap(GetFilePath(str.c_str()));
-    if (tex == 0)
-        return 0;
-    delete tload;
-    return tex;
-}
-
-void ScriptObject::DeleteTexture(uint16 texture)
-{
-    GLuint tex = texture;
-    glDeleteTextures(1, &tex);
-}
 
 ///- Others
 int ScriptObject::Rand()

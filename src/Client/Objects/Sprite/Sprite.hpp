@@ -13,6 +13,7 @@ class Sprite: public Object
         void PostDraw();
 
     public:
+        void SetAminamtionFrame(uint32 index);
         void SetIdleAnimation (bool left, bool right, bool up, bool down);
         void MoveUp();
         void MoveDown();

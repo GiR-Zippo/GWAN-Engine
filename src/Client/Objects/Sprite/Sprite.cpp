@@ -74,6 +74,13 @@ void Sprite::PostDraw()
 }
 
 ///- Da ein paar Funktionen
+void Sprite::SetAminamtionFrame(uint32 index)
+{
+    if (index > _textureMap.size())
+        return;
+    _texture = _textureMap[index];
+}
+
 void Sprite::SetIdleAnimation(bool left, bool right, bool up, bool down)
 {
     if (left)
@@ -126,7 +133,6 @@ void Sprite::MoveRight()
     _texture = _textureMap[_animCounter];
     return;
 }
-
 
 ///- So hier alles mal private
 void Sprite::_LoadTileTexture(std::string filename, uint32 x, uint32 y)

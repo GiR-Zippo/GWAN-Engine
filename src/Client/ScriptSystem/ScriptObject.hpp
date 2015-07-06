@@ -42,7 +42,6 @@ class ScriptObject : public Wrapper
         void KeyPressed(uint8 key);
 
         ///-Object, Texture, Interactionlists
-        void FlushTextures();
         void FlushObjects();
         void DeleteObject(uint16 id);
         void AddObjectToUpdate(uint16 pos, uint16 id);
@@ -56,15 +55,93 @@ class ScriptObject : public Wrapper
         void PrintUInt(uint64 data);
         void PrintFloat(float data);
 
+        /**********************************************************************\
+        |*                         Object Manipulation                        *|
+        |*                     ScriptObjectManipulation.cpp                   *|
+        \**********************************************************************/
+        /// The the color of an object (ID, r,g,b,a)
+        void SetObjectRGBA(uint32 id, float r, float g, float b, float a);
+        /// Move an object with ID (x,y)
+        void MoveObjectXY(uint32 id, float x, float y);
+        /// Move an object with ID (x,y,z)
+        void MoveObjectXYZ(uint32 id, float x, float y, float z);
+        /// Rotates an object with ID (x,y,z)
+        void SetRotationXYZ(uint32 id, float x, float y, float z);
+        /// Rotates an object with ID at x-axis
+        void RotateObjectX(uint32 id,float x);
+        /// Rotates an object with ID at y-axis
+        void RotateObjectY(uint32 id,float y);
+        /// Rotates an object with ID at z-axis
+        void RotateObjectZ(uint32 id,float z);
+        /// Resizes a object at x-axis
+        void ObjectSizeX(uint32 id, float x);
+        /// Resizes a object at y-axis
+        void ObjectSizeY(uint32 id, float y);
+        
+        /// Gets the X-position of an object
+        float GetPositionX(uint32 id);
+        /// Gets the Y-position of an object
+        float GetPositionY(uint32 id);
+
+        /**********************************************************************\
+        |*                              Spriteobject                          *|
+        |*                          ScriptObjectSprite.cpp                    *|
+        \**********************************************************************/
+        int CreateSprite(float x, float y, float z, std::string tileimage, uint32 tileX, uint32 tileY);
+        void SetSpriteAminamtionFrame(uint32 id, uint32 frameid);
+
+        /**********************************************************************\
+        |*                              Soundobjects                          *|
+        |*                          ScriptObjectSound.cpp                     *|
+        \**********************************************************************/
+        /// Load a sound (filename)
+        /// Returns SoundID
+        uint32 LoadSound(std::string file);
+        /// Play sound with ID
+        void PlaySound(uint32 id);
+        /// Stop playing sound with ID
+        void StopSound(uint32 id);
+        /// Set the Soundvolume (SoundID, volume)
+        void SetSoundVolume(uint32 id, float vol);
+        /// Get the Sound by filename
+        uint32 GetSoundIdByName(std::string name);
+        /// Remove the sound (ID)
+        void UnloadSound(uint32 id);
+
+        /**********************************************************************\
+        |*                              Textobject                            *|
+        |*                          ScriptObjectText.cpp                      *|
+        \**********************************************************************/
+        int CreateTextObject(float x, float y, float z, bool depth, float height, std::string text, std::string font);
+        void SetNewText(uint32 id, std::string text);
+        void SetTextCenterX(uint32 id, bool arg);
+        void SetTextCenterY(uint32 id, bool arg);
+        void SetTextboxBackgroundTexture(uint32 id, std::string backgroundTexture);
+        int CreateTextbox(float x, float y, float z, bool depth, float height, std::string text, std::string font);
+
+        /**********************************************************************\
+        |*                            Texturehandling                         *|
+        |*                        ScriptObjectTexture.cpp                     *|
+        \**********************************************************************/
+        /// Load a Midmap (filename)
+        int Load2DMidmap(std::string &str);
+        /// Delete texture (textureID)
+        void DeleteTexture(uint16 texture);
+        /// Flush all Textures
+        void FlushTextures();
+
+        /**********************************************************************\
+        |*                             Worldobjects                           *|
+        |*                      ScriptObjectWorldObject.cpp                   *|
+        \**********************************************************************/
+        int CreateWorldObject(float x, float y, float z, std::string filename);
+        int CreateWorldObjectCreature(float x, float y, float z, std::string filename);
+        int CreateWorldObjectPlayer(float x, float y, float z, std::string tilesetname);
+
         ///- Objects
         int CreateObject(float x, float y, float z, float sx, float sy, uint16 tex, bool depth, bool ortho, bool clickable);
         int CreateLoadingObject(float x, float y, float z, float sx, float sy, uint16 texture, bool depth);
-        int CreateSprite(float x, float y, float z, std::string tileimage, uint32 tileX, uint32 tileY);
-        
-        int CreateTextbox(float x, float y, float z, bool depth, float height, std::string text, std::string font);
-        void SetTextboxBackgroundTexture(uint32 id, std::string backgroundTexture);
 
-        
         ///- 3DModelle
         int CreateMS3DModel(float x, float y, float z, std::string path, std::string filename);
         int CreateWavefrontModel(float x, float y, float z, std::string path, std::string filename);
@@ -73,42 +150,6 @@ class ScriptObject : public Wrapper
         int CreateTileMap(float x, float y, float z, std::string filename);
         void SetActiveMap(uint16 id) { _ActiveMap = id; }
         uint16 GetActiveMap() { return _ActiveMap; }
-
-        void SetObjectRGBA(uint32 id, float r, float g, float b, float a);
-        void MoveObjectXY(uint32 id, float x, float y);
-        void MoveObjectXYZ(uint32 id, float x, float y, float z);
-        void SetRotationXYZ(uint32 id, float x, float y, float z);
-        void RotateObjectX(uint32 id,float x);
-        void RotateObjectY(uint32 id,float y);
-        void RotateObjectZ(uint32 id,float z);
-        void ObjectSizeX(uint32 id, float x);
-        void ObjectSizeY(uint32 id, float y);
-        
-        float GetPositionX(uint32 id);
-        float GetPositionY(uint32 id);
-
-        ///- ScriptObjectText.cpp
-        int CreateTextObject(float x, float y, float z, bool depth, float height, std::string text, std::string font);
-        void SetNewText(uint32 id, std::string text);
-        void SetTextCenterX(uint32 id, bool arg);
-        void SetTextCenterY(uint32 id, bool arg);
-
-        ///- ScriptWorldObject.cpp
-        int CreateWorldObject(float x, float y, float z, std::string filename);
-        int CreateWorldObjectCreature(float x, float y, float z, std::string filename);
-        int CreateWorldObjectPlayer(float x, float y, float z, std::string tilesetname);
-
-        ///- ScriptObjectSound.cpp
-        uint32 LoadSound(std::string file);
-        void PlaySound(uint32 id);
-        void StopSound(uint32 id);
-        void SetSoundVolume(uint32 id, float vol);
-        uint32 GetSoundIdByName(std::string name);
-        void UnloadSound(uint32 id);
-        
-        ///- Textures
-        int Load2DMidmap(std::string &str);
-        void DeleteTexture(uint16 texture);
 
         ///- Other things
         int Rand();
