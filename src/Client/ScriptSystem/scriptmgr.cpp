@@ -341,7 +341,7 @@ CScriptMgr::SController *CScriptMgr::GetControllerScript(const string &script)
     ctrl->onTick            = type->GetMethodByDecl("void OnTick()");
     ctrl->onMouseClick      = type->GetMethodByDecl("void OnMouseClick(float x, float y, float z, float button, float action, uint16 object)");
     ctrl->onMouseMove       = type->GetMethodByDecl("void OnMouseMove(float x, float y)");
-    ctrl->onKeyPressed      = type->GetMethodByDecl("void onKeyPressed(uint8 key)");
+    ctrl->onKeyPressed      = type->GetMethodByDecl("void OnKeyPressed(uint8 key)");
     ctrl->onThinkMethod     = type->GetMethodByDecl("void OnThink()");
     ctrl->onMessageMethod   = type->GetMethodByDecl("void OnMessage(ref @msg, const CScript @sender)");
 
