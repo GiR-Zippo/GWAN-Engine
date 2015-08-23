@@ -14,9 +14,16 @@
     #include <GL/glew.h>
 #endif
 
-#include <GL/freeglut.h>
-#include <GL/gl.h>
-#include <GL/glu.h>
+#ifdef WIN32
+    #define NDEBUG
+    #include <GL/freeglut.h>
+    #include <GL/gl.h>
+    #include <GL/glu.h>
+#else
+    #include <GL/freeglut.h>
+    #include <GL/gl.h>
+    #include <GL/glu.h>
+#endif
 
 #include <map>
 #include <string>

@@ -5,6 +5,7 @@
 
 #include "TextObject.hpp"
 #include "GlobalVars.hpp"
+#include "Shader.hpp"
 
 #include <math.h>
 inline int next_p2 (int a )
@@ -74,10 +75,13 @@ void TextObject::Draw()
     glRotatef(_rotZ, 0, 0, 1);
 
     glColor3f(_color->r,_color->g,_color->b);
-    
+
+    if (_shader != NULL)
+        _shader->Update();
+
     // Weils ne andere Plane ist wollen wir auch mal den Aspect richtig ausrechnen
-    float w = (float)glutGet(GLUT_WINDOW_WIDTH) / (float)sGlobalVars->GetWidth();
-    float h = (float)glutGet(GLUT_WINDOW_HEIGHT) / (float)sGlobalVars->GetHeight();
+    float w = (float)glutGet(GLUT_WINDOW_WIDTH) / (float)sGlobalVars->GetStartupWidth();
+    float h = (float)glutGet(GLUT_WINDOW_HEIGHT) / (float)sGlobalVars->GetStartupHeight();
 
     glScalef(w, .8 + .3 * cos(h / 5), 1);
     
@@ -88,7 +92,10 @@ void TextObject::Draw()
     else if (_centerY)
         print(_x * w , (float)glutGet(GLUT_WINDOW_HEIGHT)/2 + _height, _text.c_str());
     else
-        print(_x * w , _y * h, _text.c_str());    
+        print(_x * w , _y * h, _text.c_str());
+
+    if (_shader)
+        _shader->Finish();
 }
 
 void TextObject::PostDraw()

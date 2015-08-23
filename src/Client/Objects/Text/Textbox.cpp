@@ -72,8 +72,8 @@ void Textbox::Draw()
     glRotatef(_rotZ, 0, 0, 1);
 
     // Weils ne andere Plane ist wollen wir auch mal den Aspect richtig ausrechnen
-    float w = (float)glutGet(GLUT_WINDOW_WIDTH) / sGlobalVars->GetWidth();
-    float h = (float)glutGet(GLUT_WINDOW_HEIGHT) / sGlobalVars->GetHeight();
+    float w = (float)glutGet(GLUT_WINDOW_WIDTH) / sGlobalVars->GetStartupWidth();
+    float h = (float)glutGet(GLUT_WINDOW_HEIGHT) / sGlobalVars->GetStartupHeight();
 
     glScalef(w, .8 + .3 * cos(h / 5), 1);
     print(_x * w, _y * h, _text.c_str());

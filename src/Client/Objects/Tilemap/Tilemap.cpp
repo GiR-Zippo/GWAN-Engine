@@ -58,6 +58,50 @@ void Tilemap::Draw()
     }
 }
 
+///- Fragt mich nicht, ich hab keinen Plan
+bool Tilemap::IsPropCollosion(float x, float dx, float y, float dy)
+{
+    float px = x - _x;
+    float py = -(y - _y);
+
+    //std::cout << "x  : " << x << ", y  : " << y << "\n";
+    //std::cout << "px : " << px << ", py : " << py << "\n\n";
+
+    if (dx != 0.0f)
+    {
+        int yu = floor(py);
+        int yd = floor(py + 1.0f);
+
+        int xn = floor((dx > 0.0f ? 1.0f : 0.0f) + px + dx);
+
+        if (_propmap[yu][xn] == MAP_PROP_COLLISION)
+            return true;
+        else if (yu != yd && static_cast<float>(yd) != (py + 1.0f))
+            return _propmap[yd][xn] == MAP_PROP_COLLISION;
+    }
+
+    if (dy != 0.0f)
+    {
+        int xl = floor(px);
+        int xr = floor(px + 1.0f);
+
+        int yn = floor((dy > 0.0f ? 1.0f : 0.0f) + py + dy);
+
+        if (dy > 0.0f)
+        {
+            if (yn == 1.0f + py + dy)
+                yn -= 1.0f;
+        }
+
+        if (_propmap[yn][xl] == MAP_PROP_COLLISION)
+            return true;
+        else if (xl != xr && static_cast<float>(xr) != (px + 1.0f))
+            return _propmap[yn][xr] == MAP_PROP_COLLISION;
+    }
+
+    return false;
+}
+
 bool Tilemap::_LoadMap(string filename)
 {
     int tile = 0;
@@ -308,46 +352,3 @@ void Tilemap::_AssembleMap()
     _CallListNum = num;
     _MapAssembled = true;
 }
-
-bool Tilemap::IsPropCollosion(float x, float dx, float y, float dy)
-{
-    float px = x - _x;
-    float py = -(y - _y);
-
-    // std::cout << "px : " << px << ", py : " << py << "\n\n";
-
-    if (dx != 0.0f)
-    {
-        int yu = floor(py);
-        int yd = floor(py + 1.0f);
-
-        int xn = floor((dx > 0.0f ? 1.0f : 0.0f) + px + dx);
-
-        if (_propmap[yu][xn] == MAP_PROP_COLLISION)
-            return true;
-        else if (yu != yd && static_cast<float>(yd) != (py + 1.0f))
-            return _propmap[yd][xn] == MAP_PROP_COLLISION;
-    }
-
-    if (dy != 0.0f)
-    {
-        int xl = floor(px);
-        int xr = floor(px + 1.0f);
-
-        int yn = floor((dy > 0.0f ? 1.0f : 0.0f) + py + dy);
-
-        if (dy > 0.0f)
-        {
-            if (yn == 1.0f + py + dy)
-                yn -= 1.0f;
-        }
-
-        if (_propmap[yn][xl] == MAP_PROP_COLLISION)
-            return true;
-        else if (xl != xr && static_cast<float>(xr) != (px + 1.0f))
-            return _propmap[yn][xr] == MAP_PROP_COLLISION;
-    }
-
-    return false;
-}
-

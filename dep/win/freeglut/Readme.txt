@@ -1,4 +1,4 @@
-freeglut 2.8.1-1.mp for MSVC
+freeglut 3.0.0-1.mp for MSVC
 
 This package contains freeglut import libraries, headers, and Windows DLLs.
 These allow 32 and 64 bit GLUT applications to be compiled on Windows using
@@ -87,15 +87,15 @@ they would appreciate a bug report or a patch.
 
 Changelog
 
-2013–05–11: Release 2.8.1-1.mp
+2015–03–15: Release 3.0.0-1.mp
 
-  • First 2.8.1 MSVC release. I’ve built the package using Visual Studio 2012,
+  • First 3.0.0 MSVC release. I’ve built the package using Visual Studio 2013,
     and the only change I’ve made is to the DLL version resource—I’ve changed
     the description so that my MinGW and MSVC builds are distinguishable from
     each other (and other builds) using Windows Explorer.
 
 
-Martin Payne
-2013–05–11
+Transmission Zero
+2015–03–15
 
 http://www.transmissionzero.co.uk/

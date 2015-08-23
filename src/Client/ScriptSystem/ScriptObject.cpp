@@ -3,6 +3,7 @@
 |*        gir_zippo@hellokitty.com            *|
 \**********************************************/
 
+#include <omp.h>
 #include <math.h>
 
 #include "ScriptObject.hpp"
@@ -15,12 +16,7 @@
 #include "Object.hpp"
 #include "PlanarObject.hpp"
 
-#include "Tilemap.hpp"
-
 #include "WorldObject.hpp"
-#include "Creature.hpp"
-#include "Player.hpp"
-
 #include "ObjectMgr.hpp"
 
 ScriptObject::ScriptObject(std::string name)
@@ -34,12 +30,18 @@ ScriptObject::ScriptObject(std::string name)
     _objectIndex     = 1;
 
     // Clear the Objectlists
-    for (uint32 i = 0; i != MAX_OBJECTS; i++)
+    #pragma omp parallel num_threads(3)
+    #pragma omp parallel for
+    for (int i = 0; i < MAX_OBJECTS; i++)
         _objectUpdateList[i] = NULL;
-    for (uint32 i = 0; i != MAX_OBJECTS; i++)
+    for (int i = 0; i < MAX_OBJECTS; i++)
         _objectList[i] = NULL;
-    for (uint32 i = 0; i != MAX_OBJECTS; i++)
+    for (int i = 0; i < MAX_OBJECTS; i++)
         _interactiveObjects[i] = NULL;
+    for (int i = 0; i < MAX_TEXURES; i++)
+        _textures[i] = 0;
+    for (int i = 0; i < MAX_SHADERS; i++)
+        _shader[i] = NULL;
 }
 
 ScriptObject::~ScriptObject()
@@ -55,7 +57,7 @@ ScriptObject::~ScriptObject()
         _script->Release();
 
     //Release the whole Shit
-    for (uint32 i =0; i != MAX_OBJECTS; i++)
+    for (uint32 i =0; i < MAX_OBJECTS; i++)
     {
         _objectUpdateList[i] = NULL;
         if (_objectList[i])
@@ -111,10 +113,12 @@ void ScriptObject::InitGL()
 void ScriptObject::Draw()
 {
     _scriptMgr->CallOnDrawGL(_script);
-    for (uint32 i =0; i != MAX_OBJECTS; i++)
     {
-        if (_objectUpdateList[i] != NULL)
-            _objectUpdateList[i]->Draw();
+        for (uint32 i =0; i < MAX_OBJECTS; i++)
+        {
+            if (_objectUpdateList[i])
+                _objectUpdateList[i]->Draw();
+        }
     }
 }
 
@@ -151,7 +155,7 @@ void ScriptObject::Mouse(int button, int state, int x, int y)
 
     gluUnProject( winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
 
-    for (uint32 i =0; i != MAX_OBJECTS; i++)
+    for (uint32 i =0; i < MAX_OBJECTS; i++)
     {
         if (_objectUpdateList[i] != NULL)
             if(_objectUpdateList[i]->IsMouseHit(x, y))
@@ -301,15 +305,6 @@ int ScriptObject::CreateWavefrontModel(float x, float y, float z, std::string pa
     object->To3D()->LoadObjModelData(dPath.c_str(), filename.c_str());
     return _AddObject(object);
 }
-
-
-///- TileMapping
-int ScriptObject::CreateTileMap(float x, float y, float z, std::string filename)
-{
-    Object *object = new Tilemap(_objectIndex, x, y, z, true, GetFilePath(filename));
-    return _AddObject(object);
-}
-
 
 ///- Others
 int ScriptObject::Rand()

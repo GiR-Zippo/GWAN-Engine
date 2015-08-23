@@ -68,7 +68,7 @@ void Sprite::PostDraw()
     if (!_initalized)
     {
         _LoadTileTexture(_tileimage, _tileX, _tileY);
-        SetIdleAnimation(true, false, false, false);
+        _texture = _textureMap[0];
         _initalized = true;
     }
 }

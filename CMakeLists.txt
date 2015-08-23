@@ -46,6 +46,11 @@ find_package(OpenSSL REQUIRED)
 find_package(PCHSupport)
 find_package(ACE REQUIRED)
 
+find_package(OpenMP)
+if (OPENMP_FOUND)
+    set (CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OpenMP_C_FLAGS}")
+    set (CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OpenMP_CXX_FLAGS}")
+endif()
 #########################################################
 # FIND OPENGL
 #########################################################
@@ -82,8 +87,8 @@ find_package(GLEW)
 if(NOT GLEW_FOUND)
     if( WIN32 )
         message( STATUS "Using internal GLEW...")
-        SET(GLEW_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/dep/win/glew-1.10.0/include)
-        SET(GLEW_LIBRARY ${CMAKE_SOURCE_DIR}/dep/win/glew-1.10.0/lib/Release/Win32/glew32.lib)
+        SET(GLEW_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/dep/win/glew-1.12.0/include)
+        SET(GLEW_LIBRARY ${CMAKE_SOURCE_DIR}/dep/win/glew-1.12.0/lib/Release/Win32/glew32s.lib)
         SET(GLEW_FOUND 1)
      else()
         message(ERROR " GLEW not found!")

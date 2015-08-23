@@ -5,6 +5,8 @@
 
 #ifndef __SCRIPTOBJECT_HPP__
 #define __SCRIPTOBJECT_HPP__
+
+#include "GlobalVars.hpp"
 #include "Common.h"
 #include "angelscript.h"
 #include "wrapper.h"
@@ -12,9 +14,11 @@
 class CScriptMgr;
 class WorldObject;
 class Object;
+class Shader;
 #define twod_collision
 #define MAX_OBJECTS 64000
 #define MAX_TEXURES 64000
+#define MAX_SHADERS 64000
 
 class ScriptObject : public Wrapper
 {
@@ -59,6 +63,8 @@ class ScriptObject : public Wrapper
         |*                         Object Manipulation                        *|
         |*                     ScriptObjectManipulation.cpp                   *|
         \**********************************************************************/
+        float GetResolutionX() { return sGlobalVars->GetCurrentWidth(); }
+        float GetResolutionY() { return sGlobalVars->GetCurrentHeight(); }
         /// The the color of an object (ID, r,g,b,a)
         void SetObjectRGBA(uint32 id, float r, float g, float b, float a);
         /// Move an object with ID (x,y)
@@ -82,6 +88,17 @@ class ScriptObject : public Wrapper
         float GetPositionX(uint32 id);
         /// Gets the Y-position of an object
         float GetPositionY(uint32 id);
+
+        /**********************************************************************\
+        |*                              Shaderobject                          *|
+        |*                          ScriptObjectShader.cpp                    *|
+        \**********************************************************************/
+        int CreateShader(std::string filename);
+        void SetObjectShader(uint16 id, uint16 shader);
+        void SetUniform1f(uint16 id, std::string name, float valA);
+        void SetUniform2f(uint16 id, std::string name, float valA, float valB);
+        void DeleteShader(uint16 id);
+        void FlushShaders();
 
         /**********************************************************************\
         |*                              Spriteobject                          *|
@@ -131,6 +148,15 @@ class ScriptObject : public Wrapper
         void FlushTextures();
 
         /**********************************************************************\
+        |*                               Tilemap                              *|
+        |*                        ScriptObjectTilemap.cpp                     *|
+        \**********************************************************************/
+        int CreateTileMap(float x, float y, float z, std::string filename);
+        bool TileMapIsCollision(uint32 id, float x, float dx, float y, float dy);
+        void SetActiveMap(uint16 id) { _ActiveMap = id; }
+        uint16 GetActiveMap() { return _ActiveMap; }
+
+        /**********************************************************************\
         |*                             Worldobjects                           *|
         |*                      ScriptObjectWorldObject.cpp                   *|
         \**********************************************************************/
@@ -145,11 +171,6 @@ class ScriptObject : public Wrapper
         ///- 3DModelle
         int CreateMS3DModel(float x, float y, float z, std::string path, std::string filename);
         int CreateWavefrontModel(float x, float y, float z, std::string path, std::string filename);
-
-        ///- TileMapping
-        int CreateTileMap(float x, float y, float z, std::string filename);
-        void SetActiveMap(uint16 id) { _ActiveMap = id; }
-        uint16 GetActiveMap() { return _ActiveMap; }
 
         ///- Other things
         int Rand();
@@ -181,6 +202,7 @@ class ScriptObject : public Wrapper
         Object *_interactiveObjects[MAX_OBJECTS];
         std::map<float, std::pair<float,float> > _cameraViews;
         GLuint _textures[MAX_TEXURES];
+        Shader *_shader[MAX_SHADERS];
         uint16 _objectIndex;
         uint16 _textureIndex;
         std::string _scriptName;
