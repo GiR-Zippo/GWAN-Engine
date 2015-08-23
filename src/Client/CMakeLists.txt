@@ -113,6 +113,7 @@ include_directories(
   ${OPENAL_INCLUDE_DIR}
   ${ANGELSCRIPT_INCLUDE_DIR}
   ${OPENSSL_INCLUDE_DIR}
+  ${GLM_INCLUDE_DIRS}
 )
 
 add_executable(client
@@ -171,7 +172,7 @@ elseif( WIN32 )
   install(TARGETS client DESTINATION "${CMAKE_INSTALL_PREFIX}")
   #install(FILES client.conf.dist DESTINATION "${CMAKE_INSTALL_PREFIX}")
   add_custom_command(TARGET client POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/dep/win/freeglut/bin/freeglut.dll" $<TARGET_FILE_DIR:client>)
-  add_custom_command(TARGET client POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/dep/win/glew-1.10.0/bin/Release/Win32/glew32.dll" $<TARGET_FILE_DIR:client>)
+  add_custom_command(TARGET client POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/dep/win/glew-1.12.0/bin/Release/Win32/glew32.dll" $<TARGET_FILE_DIR:client>)
   add_custom_command(TARGET client POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/dep/win/libflac/lib/libFLAC.dll" $<TARGET_FILE_DIR:client>)
   add_custom_command(TARGET client POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/dep/win/libmpg123/lib/libmpg123.dll" $<TARGET_FILE_DIR:client>)
   add_custom_command(TARGET client POST_BUILD COMMAND ${CMAKE_COMMAND} -E copy_if_different "${PROJECT_SOURCE_DIR}/dep/win/OpenAL/OpenAL32.dll" $<TARGET_FILE_DIR:client>)

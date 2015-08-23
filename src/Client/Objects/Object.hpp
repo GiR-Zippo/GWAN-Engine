@@ -10,6 +10,7 @@
 
 class DreiDObject;
 class PlanarObject;
+class PixelObject;
 class Player;
 class LoadingObject;
 class Sprite;
@@ -17,6 +18,8 @@ class TextObject;
 class Textbox;
 class Tilemap;
 class WorldObject;
+
+class Shader;
 
 struct RGBA
 {
@@ -30,6 +33,7 @@ class Object
 {
     friend class DreiDObject;
     friend class PlanarObject;
+    friend class PixelObject;
     friend class Player;
     friend class LoadingObject;
     friend class Sprite;
@@ -78,6 +82,7 @@ class Object
 
         void SetSizeX(float x) { _sx = x; }
         void SetSizeY(float y) { _sy = y; }
+        void SetShader(Shader *shader) { _shader = shader; };
 
         void pushScreenCoordinateMatrix();
         void pop_projection_matrix();
@@ -105,5 +110,7 @@ class Object
         bool _click;
         ///- Rotation
         float _rotX, _rotY, _rotZ;
+        ///- Vertex shader
+        Shader *_shader;
 };
 #endif

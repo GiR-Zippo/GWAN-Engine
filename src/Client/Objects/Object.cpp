@@ -28,6 +28,7 @@ Object::Object(uint16 id, float x, float y, float z, float sx, float sy, uint16 
     _rotX = 0;
     _rotY = 0;
     _rotZ = 0;
+    _shader = NULL;
 }
 
 Object::~Object()
@@ -63,8 +64,8 @@ bool Object::IsMouseHit(float x, float y)
         return false;
 
     glLoadIdentity();
-    float w = (float)glutGet(GLUT_WINDOW_WIDTH) / sGlobalVars->GetWidth();
-    float h = (float)glutGet(GLUT_WINDOW_HEIGHT) / sGlobalVars->GetHeight();
+    float w = (float)glutGet(GLUT_WINDOW_WIDTH) / sGlobalVars->GetStartupWidth();
+    float h = (float)glutGet(GLUT_WINDOW_HEIGHT) / sGlobalVars->GetStartupHeight();
     float my = -(y - (float)glutGet(GLUT_WINDOW_HEIGHT));
     if ((x >= _x*w && x <= (_sx+_x)*w) && ((my >= _y*h) && my <= (_sy+_y) *h))
         return true;

@@ -13,6 +13,8 @@
 #include "DownloadSystem.hpp"
 #include "ObjectMgr.hpp"
 
+#include "Shader.hpp"
+
 ACE_Based::Thread DLMGR;
 ACE_Based::Thread OMGR;
 bool terminating;
@@ -88,12 +90,12 @@ int main(int argc, char **argv)
     sNetworkMgr->Open();
     sSocketConnector->Open();
 
-    wrapper = new Launcher();
+    wrapper = new Launcher();// new Launcher();
     wrapper->Init();
-    sGlobalVars->SetResolution(1280, 768);
+    sGlobalVars->SetStartupResolution(1280, 768);
     glutInit(&argc, argv);
     glutInitDisplayMode(GLUT_DOUBLE | GLUT_RGBA | GLUT_DEPTH);
-    glutInitWindowSize(sGlobalVars->GetWidth(), sGlobalVars->GetHeight());
+    glutInitWindowSize(sGlobalVars->GetStartupWidth(), sGlobalVars->GetStartupHeight());
     glutCreateWindow("GWAN");
 
     /* Versions und EngineName */
@@ -124,7 +126,7 @@ int main(int argc, char **argv)
     str = glGetString(GL_SHADING_LANGUAGE_VERSION);
     printf("GLSL Version: %s\n", str);
     str = glewGetString(GLEW_VERSION);
-    printf("GlewVersion: %s\n", str);
+    printf("Glew Version: %s\n", str);
 
 #ifndef SHOW_CONSOLE
     #ifdef WIN32

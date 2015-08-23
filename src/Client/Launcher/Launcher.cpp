@@ -89,7 +89,7 @@ void Launcher::InitGL()
 
     glEnable(GL_LIGHT0);
     glHint(GL_PERSPECTIVE_CORRECTION_HINT, GL_NICEST);
-    gluPerspective (1, (GLfloat)sGlobalVars->GetWidth() / (GLfloat)sGlobalVars->GetHeight(), 1.0, 1000.0);
+    gluPerspective (1, (GLfloat)sGlobalVars->GetStartupWidth() / (GLfloat)sGlobalVars->GetStartupHeight(), 1.0, 1000.0);
     if (_scriptInitialized && _script)
         _script->InitGL();
 }

@@ -13,8 +13,11 @@ class GlobalVars
     public:
         GlobalVars() {}
         void    SetResolution(int x, int y);
-        int     GetWidth() { return _width; }
-        int     GetHeight() { return _height; }
+        void    SetStartupResolution(int x, int y);
+        int     GetCurrentWidth() { return _currentwidth; }
+        int     GetCurrentHeight() { return _currentheight; }
+        int     GetStartupWidth() { return _width; }
+        int     GetStartupHeight() { return _height; }
 
         float   ViewX;
         float   ViewY;
@@ -23,6 +26,8 @@ class GlobalVars
     private:
         int     _width;
         int     _height;
+        int     _currentwidth;
+        int     _currentheight;
 };
 #define sGlobalVars ACE_Singleton<GlobalVars, ACE_Null_Mutex>::instance() ///- Der Crap ist singleton
 #endif

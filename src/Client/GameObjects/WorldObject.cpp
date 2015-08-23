@@ -321,7 +321,6 @@ void WorldObject::SetUint32Ack(uint16 Index, uint32 data)
 
 void WorldObject::_MoveAnimation()
 {
-    
     if (_me->GetPositionX() != _moveTX)
     {
         float diffX = _moveTX - _me->GetPositionX();

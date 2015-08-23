@@ -5,6 +5,7 @@
 
 #include "PlanarObject.hpp"
 #include "GlobalVars.hpp"
+#include "Shader.hpp"
 #include <math.h>
 
 PlanarObject::PlanarObject(uint16 id, float x, float y, float z, float sx, float sy, uint16 tex, bool depth, bool ortho, bool clickable): 
@@ -33,8 +34,8 @@ void PlanarObject::Draw()
     float zoom, width;
     if (_ortho)
     {
-        float w = (float)glutGet(GLUT_WINDOW_WIDTH) / sGlobalVars->GetWidth();
-        float h = (float)glutGet(GLUT_WINDOW_HEIGHT) / sGlobalVars->GetHeight();
+        float w = (float)glutGet(GLUT_WINDOW_WIDTH) / sGlobalVars->GetStartupWidth();
+        float h = (float)glutGet(GLUT_WINDOW_HEIGHT) / sGlobalVars->GetStartupHeight();
         glScalef(w, h, 1);
         pushScreenCoordinateMatrix();
     }
@@ -43,6 +44,9 @@ void PlanarObject::Draw()
         zoom = _sx/2;
         width = _sy;   
     }
+
+    if (_shader != NULL)
+        _shader->Update();
 
     glEnable(GL_TEXTURE_2D);
     {
@@ -84,7 +88,6 @@ void PlanarObject::Draw()
                         glTexCoord2d(0.0, 0.0);
                         glVertex2d((-1.0 * zoom) * width, -1.0 * zoom);
                     }
-
                 }
                 glEnd();
             }
@@ -93,6 +96,9 @@ void PlanarObject::Draw()
         }
         glDisable(GL_BLEND);
     }
+
+    if (_shader != NULL)
+        _shader->Finish();
 
     if (_ortho)
         pop_projection_matrix();
