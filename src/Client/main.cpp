@@ -90,7 +90,7 @@ int main(int argc, char **argv)
     sNetworkMgr->Open();
     sSocketConnector->Open();
 
-    wrapper = new Launcher();// new Launcher();
+    wrapper = new Launcher();
     wrapper->Init();
     sGlobalVars->SetStartupResolution(1280, 768);
     glutInit(&argc, argv);
@@ -100,7 +100,7 @@ int main(int argc, char **argv)
 
     /* Versions und EngineName */
     cout << "GWAN-Launcher\n";
-    cout << "Engine: Natalia v0.6.2\n";
+    cout << "Engine: Natalia v0.7.2\n";
     cout << "(c) 2013-2015 GiR-Zippo@hellokitty.com\n";
     /* Check GLEW */
     GLenum res = glewInit();

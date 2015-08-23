@@ -208,13 +208,9 @@ void ScriptObject::KeyPressed(uint8 key)
 \************************************************************/
 void ScriptObject::FlushObjects()
 {
-    for (GLuint i = 0; i != MAX_TEXURES; i++)
-    {
+    for (GLuint i = 0; i != MAX_OBJECTS; i++)
         if (glIsList(i))
-        {
             glDeleteLists(i, 1);
-        }
-    }
 }
 
 void ScriptObject::DeleteObject(uint16 id)
