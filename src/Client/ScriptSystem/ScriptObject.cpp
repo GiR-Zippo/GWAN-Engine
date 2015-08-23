@@ -32,15 +32,15 @@ ScriptObject::ScriptObject(std::string name)
     // Clear the Objectlists
     #pragma omp parallel num_threads(3)
     #pragma omp parallel for
-    for (int i = 0; i < MAX_OBJECTS; i++)
+    for (int i = 0; i <= MAX_OBJECTS; i++)
         _objectUpdateList[i] = NULL;
-    for (int i = 0; i < MAX_OBJECTS; i++)
+    for (int i = 0; i <= MAX_OBJECTS; i++)
         _objectList[i] = NULL;
-    for (int i = 0; i < MAX_OBJECTS; i++)
+    for (int i = 0; i <= MAX_OBJECTS; i++)
         _interactiveObjects[i] = NULL;
-    for (int i = 0; i < MAX_TEXURES; i++)
+    for (int i = 0; i <= MAX_TEXURES; i++)
         _textures[i] = 0;
-    for (int i = 0; i < MAX_SHADERS; i++)
+    for (int i = 0; i <= MAX_SHADERS; i++)
         _shader[i] = NULL;
 }
 
@@ -57,7 +57,7 @@ ScriptObject::~ScriptObject()
         _script->Release();
 
     //Release the whole Shit
-    for (uint32 i =0; i < MAX_OBJECTS; i++)
+    for (int i =0; i <= MAX_OBJECTS; i++)
     {
         _objectUpdateList[i] = NULL;
         if (_objectList[i])
@@ -193,12 +193,14 @@ void ScriptObject::KeyPressed(uint8 key)
 {
     _scriptMgr->CallOnKeyPressed(_script, key);
 
-    for (uint32 i = 0; i != MAX_OBJECTS; i++)
+    /*#pragma omp parallel num_threads(3)
+    #pragma omp parallel for
+    for (int i = 0; i < MAX_OBJECTS; i++)
     {
-        if (_interactiveObjects[i] == NULL)
-            return;
-        _interactiveObjects[i]->KeyPressed(key);
-    }
+        std::cout << i << "\n";
+        if (_interactiveObjects[i] != NULL)
+            _interactiveObjects[i]->KeyPressed(key);
+    }*/
 }
 
 /************************************************************\
@@ -206,13 +208,9 @@ void ScriptObject::KeyPressed(uint8 key)
 \************************************************************/
 void ScriptObject::FlushObjects()
 {
-    for (GLuint i = 0; i != MAX_TEXURES; i++)
-    {
+    for (GLuint i = 0; i != MAX_OBJECTS; i++)
         if (glIsList(i))
-        {
             glDeleteLists(i, 1);
-        }
-    }
 }
 
 void ScriptObject::DeleteObject(uint16 id)

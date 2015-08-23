@@ -42,8 +42,11 @@ void SoundMgr::RemoveSound(uint32 soundID)
 {
     for (std::map<uint32, Sound*>::iterator itr = _SoundList.begin(); itr != _SoundList.end(); itr++)
     {
-        delete (*itr).second;
-        _SoundList.erase(itr);
+        if (soundID == (*itr).first)
+        {
+            delete (*itr).second;
+            _SoundList.erase(itr);
+        }
     }
 }
 
