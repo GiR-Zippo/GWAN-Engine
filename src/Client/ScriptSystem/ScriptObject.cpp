@@ -201,6 +201,12 @@ void ScriptObject::KeyPressed(uint8 key)
     _scriptMgr->CallOnKeyPressed(_script, key);
 }
 
+void ScriptObject::OnResize(int w, int h)
+{
+    _scriptMgr->CallOnResize(_script, w, h);
+}
+
+
 /************************************************************\
 |*           Hier geht die eigentliche Objectlist los       *|
 \************************************************************/

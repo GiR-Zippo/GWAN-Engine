@@ -342,6 +342,7 @@ CScriptMgr::SController *CScriptMgr::GetControllerScript(const string &script)
     ctrl->onMouseClick      = type->GetMethodByDecl("void OnMouseClick(float x, float y, float z, float button, float action, uint16 object)");
     ctrl->onMouseMove       = type->GetMethodByDecl("void OnMouseMove(float x, float y)");
     ctrl->onKeyPressed      = type->GetMethodByDecl("void OnKeyPressed(uint8 key)");
+    ctrl->onResize          = type->GetMethodByDecl("void OnResize(int w, int h)");
     ctrl->onThinkMethod     = type->GetMethodByDecl("void OnThink()");
     ctrl->onMessageMethod   = type->GetMethodByDecl("void OnMessage(ref @msg, const CScript @sender)");
 
@@ -482,6 +483,21 @@ void CScriptMgr::CallOnKeyPressed(asIScriptObject* object, uint8 key)
         ReturnContextToPool(ctx);
     }
 }
+
+void CScriptMgr::CallOnResize(asIScriptObject* object, int w, int h)
+{
+    SController *ctrl = reinterpret_cast<SController*>(object->GetObjectType()->GetUserData());
+    if( ctrl->onResize != 0 )
+    {
+        asIScriptContext *ctx = PrepareContextFromPool(ctrl->onResize);
+        ctx->SetObject(object);
+        ctx->SetArgFloat(0, w);
+        ctx->SetArgFloat(1, h);
+        ExecuteCall(ctx);
+        ReturnContextToPool(ctx);
+    }
+}
+
 
 void CScriptMgr::CallOnThink(asIScriptObject *object)
 {

@@ -31,6 +31,7 @@ public:
     void CallOnMouseClick(asIScriptObject *object, float x, float y, float z, int button, int action, int clickedobj = 0); //If mouse clicked
     void CallOnMouseMove(asIScriptObject *object, float x, float y);
     void CallOnKeyPressed(asIScriptObject *object, uint8 key);
+    void CallOnResize(asIScriptObject *object, int w, int h);
     void CallOnThink(asIScriptObject *object);
     void CallOnMessage(asIScriptObject *object, CScriptHandle &msg, ScriptObject *caller);
 
@@ -45,7 +46,7 @@ protected:
     struct SController
     {
         SController() : type(0), factoryFunc(0), onInitGL(0), onDrawGL(0), onTick(0),
-                        onMouseClick(0), onMouseMove(0), onKeyPressed(0), onThinkMethod(0), onMessageMethod(0) {}
+                        onMouseClick(0), onMouseMove(0), onKeyPressed(0), onResize(0), onThinkMethod(0), onMessageMethod(0) {}
         std::string        module;
         asIObjectType     *type;
         asIScriptFunction *factoryFunc;
@@ -55,6 +56,7 @@ protected:
         asIScriptFunction *onMouseClick;
         asIScriptFunction *onMouseMove;
         asIScriptFunction *onKeyPressed;
+        asIScriptFunction *onResize;
         asIScriptFunction *onThinkMethod;
         asIScriptFunction *onMessageMethod;
     };

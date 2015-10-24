@@ -44,6 +44,7 @@ class ScriptObject : public Wrapper
         void Mouse(int button, int state, int x, int y);
         void MouseMove(int x, int y);
         void KeyPressed(uint8 key);
+        void OnResize(int w, int h);
 
         ///-Object, Texture, Interactionlists
         void FlushObjects();
