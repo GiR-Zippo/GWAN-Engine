@@ -172,6 +172,8 @@ void Launcher::Resize(int w, int h)
     gluPerspective (60, (GLfloat)w / (GLfloat)h, 1.0, 100.0);
     glTranslatef(sGlobalVars->ViewX, sGlobalVars->ViewY, sGlobalVars->ViewZ);
     glMatrixMode (GL_MODELVIEW);
+    if (_scriptInitialized && _script)
+        _script->OnResize(w, h);
 }
 
 void Launcher::KeyBoardNormal(unsigned char key, int xmouse, int ymouse)
