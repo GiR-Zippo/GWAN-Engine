@@ -45,14 +45,14 @@ void PlanarObject::Draw()
         width = _sy;   
     }
 
-    if (_shader != NULL)
-        _shader->Update();
-
     glEnable(GL_TEXTURE_2D);
     {
         glEnable(GL_BLEND);
         {
             glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+            // embed shader
+            if (_shader != NULL)
+                _shader->Update();
             glBindTexture(GL_TEXTURE_2D, _texture); //get the texture for the actual quad
             glPushMatrix(); //push the matrix so that our translations only affect
             {
@@ -94,11 +94,11 @@ void PlanarObject::Draw()
             glGetFloatv (GL_MODELVIEW_MATRIX, _matrix);
             glPopMatrix(); //pop the matrix
         }
+        //and finish 'em
+        if (_shader != NULL)
+            _shader->Finish();
         glDisable(GL_BLEND);
     }
-
-    if (_shader != NULL)
-        _shader->Finish();
 
     if (_ortho)
         pop_projection_matrix();

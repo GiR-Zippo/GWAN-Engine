@@ -155,7 +155,7 @@ void ScriptObject::Mouse(int button, int state, int x, int y)
 
     gluUnProject( winX, winY, winZ, modelview, projection, viewport, &posX, &posY, &posZ);
 
-    for (uint32 i =0; i < MAX_OBJECTS; i++)
+    for (int i =0; i <= MAX_OBJECTS; i++)
     {
         if (_objectUpdateList[i] != NULL)
             if(_objectUpdateList[i]->IsMouseHit(x, y))
@@ -191,16 +191,14 @@ void ScriptObject::MouseMove(int x, int y)
 
 void ScriptObject::KeyPressed(uint8 key)
 {
-    _scriptMgr->CallOnKeyPressed(_script, key);
-
-    /*#pragma omp parallel num_threads(3)
+    #pragma omp parallel num_threads(3)
     #pragma omp parallel for
     for (int i = 0; i < MAX_OBJECTS; i++)
     {
-        std::cout << i << "\n";
         if (_interactiveObjects[i] != NULL)
             _interactiveObjects[i]->KeyPressed(key);
-    }*/
+    }
+    _scriptMgr->CallOnKeyPressed(_script, key);
 }
 
 /************************************************************\
