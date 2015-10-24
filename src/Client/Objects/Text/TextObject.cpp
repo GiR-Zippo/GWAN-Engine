@@ -76,9 +76,6 @@ void TextObject::Draw()
 
     glColor3f(_color->r,_color->g,_color->b);
 
-    if (_shader != NULL)
-        _shader->Update();
-
     // Weils ne andere Plane ist wollen wir auch mal den Aspect richtig ausrechnen
     float w = (float)glutGet(GLUT_WINDOW_WIDTH) / (float)sGlobalVars->GetStartupWidth();
     float h = (float)glutGet(GLUT_WINDOW_HEIGHT) / (float)sGlobalVars->GetStartupHeight();
@@ -334,9 +331,9 @@ void TextObject::print(float x, float y, const char* fmt, ... )
     glDisable(GL_DEPTH_TEST);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-
     glListBase(font);
-
+    if (_shader != NULL)
+        _shader->Update();
     float modelview_matrix[16];
     glGetFloatv(GL_MODELVIEW_MATRIX, modelview_matrix);
 
