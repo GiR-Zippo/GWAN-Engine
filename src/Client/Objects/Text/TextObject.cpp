@@ -344,7 +344,7 @@ void TextObject::print(float x, float y, const char* fmt, ... )
     // Down By h. This Is Because When Each Character Is
     // Drawn It Modifies The Current Matrix So That The Next Character
     // Will Be Drawn Immediately After It.
-    for (int i = 0; i < lines.size(); i++)
+    for (size_t i = 0; i < lines.size(); i++)
     {
         glPushMatrix();
         glLoadIdentity();

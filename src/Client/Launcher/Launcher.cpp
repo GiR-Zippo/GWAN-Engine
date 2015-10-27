@@ -47,8 +47,11 @@ void Launcher::LoadScript(std::string file)
 {
     _scriptInitialized = false;
     std::string old = _script->GetScriptName();
+    _script->FlushUpdateList();
     _script->FlushTextures();
-    _script->DestroyAndRelease();
+    _script->FlushObjects();
+    _script->FlushShaders();
+//     _script->DestroyAndRelease();
     scriptMgr->RemoveScript(old);
     _script = new ScriptObject(GetFilePath(file));
     _script->SetScriptObject(scriptMgr->CreateController(GetFilePath(file), _script), scriptMgr);
