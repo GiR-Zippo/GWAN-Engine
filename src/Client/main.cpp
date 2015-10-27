@@ -100,7 +100,7 @@ int main(int argc, char **argv)
 
     /* Versions und EngineName */
     cout << "GWAN-Launcher\n";
-    cout << "Engine: Natalia v0.7.2\n";
+    cout << "Engine: Natalia v0.7.3\n";
     cout << "(c) 2013-2015 GiR-Zippo@hellokitty.com\n";
     /* Check GLEW */
     GLenum res = glewInit();
