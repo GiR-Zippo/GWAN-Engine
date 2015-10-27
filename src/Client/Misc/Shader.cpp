@@ -20,9 +20,12 @@ Shader::Shader(string filename)
 
 Shader::~Shader()
 {
-    glDeleteShader(_FS);
-    glDeleteShader(_VS);
-    glDeleteShader(_PO);
+    if (_FS)
+        glDeleteShader(_FS);
+    if(_VS)
+        glDeleteShader(_VS);
+    if(_PO)
+        glDeleteProgram(_PO);
 }
 
 void Shader::Update()

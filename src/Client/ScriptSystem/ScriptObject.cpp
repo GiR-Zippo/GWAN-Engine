@@ -18,6 +18,7 @@
 
 #include "WorldObject.hpp"
 #include "ObjectMgr.hpp"
+#include "Shader.hpp"
 
 ScriptObject::ScriptObject(std::string name)
 {
@@ -56,12 +57,18 @@ ScriptObject::~ScriptObject()
     if( _script )
         _script->Release();
 
-    //Release the whole Shit
-    for (int i =0; i <= MAX_OBJECTS; i++)
+    for (int i = 0; i < MAX_SHADERS; i++)
     {
-        _objectUpdateList[i] = NULL;
+        if (_shader[i])
+            delete _shader[i];
+        _shader[i] = NULL;
+    }
+    //Release the whole Shit
+    for (int i =0; i < MAX_OBJECTS; i++)
+    {
         if (_objectList[i])
             delete _objectList[i];
+        _objectUpdateList[i] = NULL;
     }
     _cameraViews.clear();
 }

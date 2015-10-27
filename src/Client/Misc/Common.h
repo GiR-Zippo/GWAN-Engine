@@ -9,13 +9,16 @@
 #ifdef WIN32
     #define GLEW_STATIC
     #include "GL/glew.h"
+    #include "GL/wglew.h"
 #else
     #define GL_GLEXT_PROTOTYPES
     #include <GL/glew.h>
 #endif
 
 #ifdef WIN32
-    #define NDEBUG
+    #ifndef NDEBUG
+        #define NDEBUG
+    #endif
     #include <GL/freeglut.h>
     #include <GL/gl.h>
     #include <GL/glu.h>
@@ -44,6 +47,23 @@ using namespace std;
 #else
     #include <unistd.h>
 #endif
+
+#define GWAN_GUARD(MUTEX, LOCK) \
+  ACE_Guard< MUTEX > GWAN_GUARD_OBJECT (LOCK); \
+    if (GWAN_GUARD_OBJECT.locked() == 0) ASSERT(false);
+
+//! For proper implementation of multiple-read, single-write pattern, use
+//! ACE_RW_Mutex as underlying @MUTEX
+# define GWAN_WRITE_GUARD(MUTEX, LOCK) \
+  ACE_Write_Guard< MUTEX > GWAN_GUARD_OBJECT (LOCK); \
+    if (GWAN_GUARD_OBJECT.locked() == 0) ASSERT(false);
+
+//! For proper implementation of multiple-read, single-write pattern, use
+//! ACE_RW_Mutex as underlying @MUTEX
+# define GWAN_READ_GUARD(MUTEX, LOCK) \
+  ACE_Read_Guard< MUTEX > GWAN_GUARD_OBJECT (LOCK); \
+    if (GWAN_GUARD_OBJECT.locked() == 0) ASSERT(false);
+
 
 enum SessionFlags
 {

@@ -35,5 +35,9 @@ void ScriptObject::DeleteShader(uint16 id)
 void ScriptObject::FlushShaders()
 {
     for (int i = 0; i < MAX_SHADERS; i++)
+    {
+        if (_shader[i])
+            delete _shader[i];
         _shader[i] = NULL;
+    }
 }
